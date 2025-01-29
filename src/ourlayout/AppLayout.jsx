@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
   Layout,
-  Menu,
   Dropdown,
   Avatar,
   Typography,
   Space,
   Modal,
   message,
+  Menu,
 } from "antd";
 import {
+  HomeOutlined,
   DashboardOutlined,
   ToolOutlined,
   SettingOutlined,
@@ -65,6 +66,11 @@ const AppLayout = () => {
   // ✅ เมนูหลัก (แก้ไขใหม่ ใช้ `items` แทน `Menu.Item`)
   const menuItems = [
     {
+      key: "/",
+      icon: <HomeOutlined />,
+      label: <Link to="/">หน้าแรก</Link>,
+    },
+    {
       key: "/dashboard",
       icon: <DashboardOutlined />,
       label: <Link to="/dashboard">ผลสรุป</Link>,
@@ -72,20 +78,20 @@ const AppLayout = () => {
     {
       key: "manage",
       icon: <ToolOutlined />,
-      label: "Manage",
+      label: "จัดการ",
       children: [
-        { key: "/manage/user", label: <Link to="/manage/user">User</Link> },
-        { key: "/manage/bin", label: <Link to="/manage/bin">Bin</Link> },
+        { key: "/manage/user", label: <Link to="/manage/user">ผู้ใช้</Link> },
+        { key: "/manage/bin", label: <Link to="/manage/bin">ขยะ</Link> },
         {
           key: "/manage/category",
-          label: <Link to="/manage/category">Category</Link>,
+          label: <Link to="/manage/category">หมวดหมู่</Link>,
         },
       ],
     },
     {
       key: "/setting",
       icon: <SettingOutlined />,
-      label: <Link to="/setting">Setting</Link>,
+      label: <Link to="/setting">ตั้งค่า</Link>,
     },
   ];
 
@@ -133,7 +139,7 @@ const AppLayout = () => {
       </Header>
 
       {/* 🔹 Content Layout */}
-      <Content className="app-layout-content">
+      <Content className="app-layout-content" key={location.pathname}>
         <Outlet />
       </Content>
     </Layout>

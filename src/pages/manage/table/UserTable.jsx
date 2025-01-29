@@ -1,4 +1,4 @@
-import { Switch, Dropdown, Menu } from "antd";
+import { Switch, Dropdown } from "antd";
 import {
   MoreOutlined,
   DeleteOutlined,
@@ -9,7 +9,9 @@ import {
   TeamOutlined,
   NumberOutlined,
   RetweetOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import { Modal } from "antd";
 
 export const userColumns = (
   handleEditUser,
@@ -39,7 +41,7 @@ export const userColumns = (
     key: "name",
     sorter: (a, b) =>
       (a.name?.toString() || "").localeCompare(b.name?.toString() || ""),
-    defaultSortOrder: "ascend", // ✅ เรียงจาก A → Z เป็นค่าเริ่มต้น
+    defaultSortOrder: "ascend",
   },
   {
     title: (
@@ -93,7 +95,7 @@ export const userColumns = (
       timestamp ? new Date(timestamp.toDate()).toLocaleString() : "-",
     sorter: (a, b) =>
       (a.createdAt?.toDate() || 0) - (b.createdAt?.toDate() || 0),
-    defaultSortOrder: "ascend", // ✅ เรียงจากเก่าสุด → ใหม่สุด เป็นค่าเริ่มต้น
+    defaultSortOrder: "ascend",
   },
   {
     title: (
@@ -117,28 +119,37 @@ export const userColumns = (
   {
     key: "action",
     render: (_, record) => {
-      const menu = (
-        <Menu>
-          <Menu.Item
-            key="edit"
-            icon={<EditOutlined />}
-            onClick={() => handleEditUser(record)}
-          >
-            แก้ไข
-          </Menu.Item>
-          <Menu.Item
-            key="delete"
-            icon={<DeleteOutlined />}
-            danger
-            onClick={() => handleDeleteUser(record.uid)}
-          >
-            ลบ
-          </Menu.Item>
-        </Menu>
-      );
+      // ✅ ฟังก์ชันยืนยันการลบ
+      const confirmDelete = () => {
+        Modal.confirm({
+          title: "ยืนยันการลบ",
+          icon: <ExclamationCircleOutlined />,
+          content: `คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้ ${record.name} ${record.lastName} ?`,
+          okText: "ลบ",
+          okType: "danger",
+          cancelText: "ยกเลิก",
+          onOk: () => handleDeleteUser(record.uid),
+        });
+      };
+
+      // ✅ เพิ่มตัวเลือก "ลบ" ลงใน dropdown
+      const menuItems = [
+        {
+          key: "edit",
+          icon: <EditOutlined />,
+          label: "แก้ไข",
+          onClick: () => handleEditUser(record),
+        },
+        {
+          key: "delete",
+          icon: <DeleteOutlined style={{ color: "red" }} />,
+          label: <span style={{ color: "red" }}>ลบ</span>,
+          onClick: confirmDelete, // ✅ เรียก Modal ยืนยันก่อนลบ
+        },
+      ];
 
       return (
-        <Dropdown overlay={menu} trigger={["click"]}>
+        <Dropdown menu={{ items: menuItems }} trigger={["click"]}>
           <MoreOutlined style={{ fontSize: 20, cursor: "pointer" }} />
         </Dropdown>
       );

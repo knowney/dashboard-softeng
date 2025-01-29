@@ -61,27 +61,6 @@ body {
   margin-right: 12px;
 }
 
-.app-layout-title {
-  margin: 0;
-  font-size: 20px;
-  font-weight: bold;
-  color: white !important; /* ✅ เปลี่ยนสีเป็นขาว */
-}
-
-/* ✅ เมนูด้านบน */
-.app-layout-menu {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  background: transparent !important; /* ✅ ลบพื้นหลังของเมนู */
-  border-bottom: none;
-}
-
-.app-layout-menu .ant-menu-item {
-  font-size: 16px;
-  color: rgb(0, 0, 0) !important; /* ✅ เปลี่ยนสีตัวอักษรเป็นขาว */
-}
-
 /* ✅ Profile Section */
 .profile-section {
   cursor: pointer;
@@ -100,5 +79,24 @@ body {
 /* ✅ Content Layout */
 .app-layout-content {
   padding: 20px;
+  background: #ffffff;
+}
+/* ✅ ทำให้เนื้อหา (Content) ค่อย ๆ ปรากฏเมื่อเปลี่ยนหน้า */
+.app-layout-content {
+  padding: 20px;
   background: #f4f6f9;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: zoomIn 0.4s ease-in-out forwards;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

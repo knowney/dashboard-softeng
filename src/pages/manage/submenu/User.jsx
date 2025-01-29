@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { message, Modal, Form, Input, Select, Button, Card } from "antd";
-import { UserAddOutlined, UserOutlined } from "@ant-design/icons";
+import { message, Modal, Form, Input, Select, Button } from "antd";
+import {
+  UserAddOutlined,
+  SettingOutlined,
+  UserOutlined,
+  LockOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import UserTable from "../../../components/CustomTable";
 import {
   fetchUsers,
   deleteUser,
   updateUser,
   toggleUserStatus,
-  addUser,
 } from "../../../service/UserFunc";
 import { userColumns } from "../table/UserTable";
-
-const { Option } = Select;
+import { Timestamp, setDoc, doc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth"; // ✅ ใช้ Firebase Auth ถ้าต้องการเก็บรหัสผ่าน
+import { db, auth } from "../../../service/firebaseDb"; // ✅ ตรวจสอบว่า import db และ auth ถูกต้อง
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -38,32 +44,11 @@ const User = () => {
     loadUsers();
   }, []);
 
-  const handleToggleStatus = async (uid, currentStatus) => {
-    setLoading(true);
-    const newStatus = await toggleUserStatus(uid, currentStatus);
-    if (newStatus) {
-      message.success(`เปลี่ยนสถานะเป็น ${newStatus} แล้ว`);
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.uid === uid ? { ...user, status: newStatus } : user
-        )
-      );
-    } else {
-      message.error("เกิดข้อผิดพลาดในการเปลี่ยนสถานะ!");
-    }
-    setLoading(false);
-  };
-
-  const handleDeleteUser = async (uid) => {
-    setLoading(true);
-    const success = await deleteUser(uid);
-    if (success) {
-      message.success("ลบผู้ใช้เรียบร้อย!");
-      setUsers((prevUsers) => prevUsers.filter((user) => user.uid !== uid));
-    } else {
-      message.error("เกิดข้อผิดพลาดในการลบผู้ใช้!");
-    }
-    setLoading(false);
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    setIsAddModalVisible(false);
+    form.resetFields();
+    addForm.resetFields();
   };
 
   const handleEditUser = (user) => {
@@ -89,7 +74,7 @@ const User = () => {
             user.uid === selectedUser.uid ? { ...user, ...values } : user
           )
         );
-        setIsModalVisible(false);
+        handleModalClose();
       }
     } catch (error) {
       message.error("กรุณากรอกข้อมูลให้ถูกต้อง!");
@@ -101,27 +86,77 @@ const User = () => {
     setLoading(true);
     try {
       const values = await addForm.validateFields();
-      const newUser = await addUser({ ...values, status: "active" });
-      if (newUser) {
-        message.success("เพิ่มผู้ใช้สำเร็จ!");
-        setUsers((prevUsers) => [...prevUsers, newUser]);
-        setIsAddModalVisible(false);
-        addForm.resetFields();
+
+      // ✅ Firebase Auth - สร้างบัญชีผู้ใช้
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const newUserId = userCredential.user.uid;
+
+      const newUser = {
+        uid: newUserId,
+        name: values.name,
+        lastName: values.lastName,
+        email: values.email,
+        role: values.role,
+        status: "active",
+        createdAt: Timestamp.fromDate(new Date()),
+      };
+
+      // ✅ Firestore - บันทึกข้อมูลผู้ใช้
+      await setDoc(doc(db, "users", newUserId), newUser);
+
+      message.success("เพิ่มผู้ใช้สำเร็จ!");
+      setUsers((prevUsers) => [...prevUsers, newUser]);
+      handleModalClose();
+    } catch (error) {
+      console.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้:", error);
+
+      // ✅ ตรวจสอบรหัสข้อผิดพลาดของ Firebase
+      if (error.code === "auth/email-already-in-use") {
+        message.error("อีเมลนี้ถูกใช้งานแล้ว!");
+      } else if (error.code === "auth/weak-password") {
+        message.error("รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร!");
+      } else if (error.code === "auth/invalid-email") {
+        message.error("รูปแบบอีเมลไม่ถูกต้อง!");
+      } else {
+        message.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้ กรุณาลองอีกครั้ง!");
+      }
+    }
+    setLoading(false);
+  };
+
+  const roles = [
+    { value: "user", label: "👤 ผู้ใช้" },
+    { value: "admin", label: "🔧 แอดมิน" },
+  ];
+  const handleDeleteUser = async (uid) => {
+    setLoading(true);
+    try {
+      const success = await deleteUser(uid);
+      if (success) {
+        message.success("ลบผู้ใช้สำเร็จ!");
+
+        // ✅ อัปเดต state users โดยลบ user ที่ถูกลบออก
+        setUsers((prevUsers) => prevUsers.filter((user) => user.uid !== uid));
+      } else {
+        message.error("ไม่สามารถลบผู้ใช้ได้!");
       }
     } catch (error) {
-      message.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้!");
+      message.error("เกิดข้อผิดพลาดในการลบผู้ใช้!");
     }
     setLoading(false);
   };
 
   return (
     <>
-      {/* ✅ ตารางแสดงผู้ใช้ */}
       <UserTable
         columns={userColumns(
           handleEditUser,
           handleDeleteUser,
-          handleToggleStatus,
+          toggleUserStatus,
           pagination
         )}
         data={users}
@@ -129,7 +164,6 @@ const User = () => {
         pagination={pagination}
         setPagination={setPagination}
         extraContent={
-          // ✅ ปุ่มอยู่ขวาสุดจริงๆ
           <Button
             type="primary"
             icon={<UserAddOutlined />}
@@ -145,26 +179,53 @@ const User = () => {
       <Modal
         title="แก้ไขข้อมูลผู้ใช้"
         open={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={handleModalClose}
         onOk={handleSaveUser}
         okText="บันทึก"
         cancelText="ยกเลิก"
+        confirmLoading={loading}
+        centered
       >
-        <Form form={form} layout="vertical">
-          <Form.Item label="ชื่อ" name="name" rules={[{ required: true }]}>
-            <Input />
+        <Form
+          form={form}
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
+          <Form.Item label="ชื่อ - นามสกุล">
+            <Input.Group compact>
+              <Form.Item
+                name="name"
+                noStyle
+                rules={[{ required: true, message: "กรุณากรอกชื่อ" }]}
+              >
+                <Input
+                  placeholder="ชื่อ"
+                  style={{ width: "50%" }}
+                  prefix={<UserOutlined />}
+                />
+              </Form.Item>
+              <Form.Item
+                name="lastName"
+                noStyle
+                rules={[{ required: true, message: "กรุณากรอกนามสกุล" }]}
+              >
+                <Input placeholder="นามสกุล" style={{ width: "50%" }} />
+              </Form.Item>
+            </Input.Group>
           </Form.Item>
+
           <Form.Item
-            label="นามสกุล"
-            name="lastName"
-            rules={[{ required: true }]}
+            label="บทบาท"
+            name="role"
+            rules={[{ required: true, message: "กรุณาเลือกบทบาท" }]}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item label="บทบาท" name="role" rules={[{ required: true }]}>
-            <Select>
-              <Option value="user">ผู้ใช้</Option>
-              <Option value="admin">แอดมิน</Option>
+            <Select placeholder="เลือกบทบาท" suffixIcon={<SettingOutlined />}>
+              {roles.map((role) => (
+                <Select.Option key={role.value} value={role.value}>
+                  {role.label}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Form>
@@ -174,28 +235,102 @@ const User = () => {
       <Modal
         title="เพิ่มผู้ใช้"
         open={isAddModalVisible}
-        onCancel={() => setIsAddModalVisible(false)}
+        onCancel={handleModalClose}
         onOk={handleAddUser}
         okText="เพิ่ม"
         cancelText="ยกเลิก"
+        centered
       >
-        <Form form={addForm} layout="vertical">
-          <Form.Item label="ชื่อ" name="name" rules={[{ required: true }]}>
-            <Input />
+        <Form
+          form={addForm}
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
+          {/* ✅ ชื่อ - นามสกุล (รวมเป็นบรรทัดเดียว) */}
+          <Form.Item label="ชื่อ - นามสกุล">
+            <Input.Group compact>
+              <Form.Item
+                name="name"
+                noStyle
+                rules={[{ required: true, message: "กรุณากรอกชื่อ" }]}
+              >
+                <Input
+                  placeholder="ชื่อ"
+                  style={{ width: "50%" }}
+                  prefix={<UserOutlined />}
+                />
+              </Form.Item>
+              <Form.Item
+                name="lastName"
+                noStyle
+                rules={[{ required: true, message: "กรุณากรอกนามสกุล" }]}
+              >
+                <Input placeholder="นามสกุล" style={{ width: "50%" }} />
+              </Form.Item>
+            </Input.Group>
           </Form.Item>
-          <Form.Item
-            label="นามสกุล"
-            name="lastName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+
+          {/* ✅ อีเมล */}
           <Form.Item
             label="อีเมล"
             name="email"
-            rules={[{ required: true, type: "email" }]}
+            rules={[
+              { required: true, message: "กรุณากรอกอีเมล" },
+              { type: "email", message: "รูปแบบอีเมลไม่ถูกต้อง" },
+            ]}
           >
-            <Input />
+            <Input placeholder="กรอกอีเมล" prefix={<MailOutlined />} />
+          </Form.Item>
+
+          {/* ✅ รหัสผ่าน */}
+          <Form.Item
+            label="รหัสผ่าน"
+            name="password"
+            rules={[
+              { required: true, message: "กรุณากรอกรหัสผ่าน !" },
+              { min: 6, message: "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร" },
+            ]}
+          >
+            <Input.Password
+              placeholder="กรอกรหัสผ่าน"
+              prefix={<LockOutlined />}
+            />
+          </Form.Item>
+
+          {/* ✅ ยืนยันรหัสผ่าน */}
+          <Form.Item
+            label="ยืนยันรหัสผ่าน"
+            name="confirmPassword"
+            dependencies={["password"]}
+            rules={[
+              { required: true, message: "กรุณากรอกยืนยันรหัสผ่าน !" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("รหัสผ่านไม่ตรงกัน!"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              placeholder="กรอกยืนยันรหัสผ่าน"
+              prefix={<LockOutlined />}
+            />
+          </Form.Item>
+
+          {/* ✅ เลือกบทบาท */}
+          <Form.Item
+            label="บทบาท"
+            name="role"
+            rules={[{ required: true, message: "กรุณาเลือกบทบาท" }]}
+          >
+            <Select placeholder="เลือกบทบาท" suffixIcon={<SettingOutlined />}>
+              <Select.Option value="user">👤 ผู้ใช้</Select.Option>
+              <Select.Option value="admin">🔧 แอดมิน</Select.Option>
+            </Select>
           </Form.Item>
         </Form>
       </Modal>

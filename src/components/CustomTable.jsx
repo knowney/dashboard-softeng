@@ -64,11 +64,7 @@ const CustomTable = ({
       {/* ✅ เว้นระยะห่างระหว่างแถบค้นหากับตาราง */}
       <div className="mt-4">
         {loading ? (
-          <Spin
-            tip="กำลังโหลดข้อมูล..."
-            size="large"
-            style={{ display: "block", textAlign: "center", margin: "20px 0" }}
-          />
+          <Spin tip="กำลังโหลดข้อมูล..." size="large" fullscreen />
         ) : (
           <Table
             columns={columns}

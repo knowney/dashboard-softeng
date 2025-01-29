@@ -29,7 +29,7 @@ export const deleteUser = async (uid) => {
   try {
     await deleteDoc(doc(db, "users", uid));
     console.log("Deleted user:", uid);
-    return true;
+    return true; // ✅ คืนค่า true ถ้าลบสำเร็จ
   } catch (error) {
     console.error("Error deleting user:", error);
     return false;
