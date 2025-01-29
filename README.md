@@ -25,3 +25,16 @@ yarn add react-router-dom
 yarn add chart.js react-chartjs-2
 yarn add firebase
 ```
+
+### 2. Run the Project
+
+After installing dependencies, start the project with using Yarn :
+
+```bash
+yarn dev
+```
+or NPM
+```bash
+npm run dev
+```
+
