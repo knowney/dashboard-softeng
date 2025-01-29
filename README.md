@@ -1,8 +1,27 @@
-# React + Vite
+# Installation Guide for Dependencies (Runtime)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This guide provides step-by-step instructions to install the required dependencies for the project.
 
-Currently, two official plugins are available:
+## Dependencies Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Package                       | Purpose                                      | Install with Yarn                   | Install with NPM                       |
+| ----------------------------- | -------------------------------------------- | ----------------------------------- | -------------------------------------- |
+| `react`, `react-dom`          | React library for building UI                | `yarn add react react-dom`          | `npm install react react-dom`          |
+| `react-router-dom`            | For routing (navigate pages without refresh) | `yarn add react-router-dom`         | `npm install react-router-dom`         |
+| `chart.js`, `react-chartjs-2` | For creating charts                          | `yarn add chart.js react-chartjs-2` | `npm install chart.js react-chartjs-2` |
+| `firebase`                    | To connect to Firebase                       | `yarn add firebase`                 | `npm install firebase`                 |
+
+---
+
+## Installation Instructions
+
+### 1. Install Dependencies with Yarn
+
+Run the following commands in your terminal to install the necessary packages using Yarn:
+
+```bash
+yarn add react react-dom
+yarn add react-router-dom
+yarn add chart.js react-chartjs-2
+yarn add firebase
+```
