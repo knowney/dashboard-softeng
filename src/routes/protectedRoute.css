@@ -1,0 +1,7 @@
+/* ✅ จัดให้ Loading อยู่ตรงกลางหน้าจอ */
+.loading-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}

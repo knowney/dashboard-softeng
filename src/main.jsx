@@ -1,45 +1,40 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
-import Dashboard from "./pages/dashboard/Dashboard.jsx"; // หน้า Dashboard
+import AppLayout from "./ourlayout/AppLayout.jsx"; // ✅ ใช้ Layout หลัก
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import Setting from "./pages/setting/Setting.jsx";
+import User from "./pages/manage/submenu/User.jsx";
+import Bin from "./pages/manage/submenu/Bin.jsx";
+import Category from "./pages/manage/submenu/Category.jsx";
+import Login from "./pages/login/login.jsx"; // ✅ Import Login
+import Index from "./pages/index/Index.jsx"; // ✅ Import Login
+import ProtectedRoute from "./routes/ProtectedRoute.jsx"; // ✅ Import ProtectedRoute
 
-import Setting from "./pages/setting/Setting.jsx"; // หน้า Setting
-import User from "./pages/manage/submenu/User.jsx"; // หน้า User
-import Bin from "./pages/manage/submenu/Bin.jsx"; // หน้า Bin
-import Category from "./pages/manage/submenu/Category.jsx"; // หน้า Category
-
-// กำหนด router ด้วย createBrowserRouter
+// กำหนด router
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "/login",
+    element: <Login />, // ✅ หน้า Login ไม่มี Layout
+  },
+  {
+    element: (
+      <ProtectedRoute>
+        <AppLayout /> {/* ✅ Layout ใช้หลังจากล็อกอินเท่านั้น */}
+      </ProtectedRoute>
+    ),
     children: [
-      {
-        path: "dashboard",
-        element: <Dashboard />, // เส้นทางสำหรับ Dashboard
-      },
+      { path: "dashboard", element: <Dashboard /> },
       {
         path: "manage",
         children: [
-          {
-            path: "user",
-            element: <User />, // เส้นทางย่อยสำหรับ User
-          },
-          {
-            path: "bin",
-            element: <Bin />, // เส้นทางย่อยสำหรับ Bin
-          },
-          {
-            path: "category",
-            element: <Category />, // เส้นทางย่อยสำหรับ Category
-          },
+          { path: "user", element: <User /> },
+          { path: "bin", element: <Bin /> },
+          { path: "category", element: <Category /> },
         ],
       },
-      {
-        path: "setting",
-        element: <Setting />, // เส้นทางสำหรับ Setting
-      },
+      { path: "setting", element: <Setting /> },
+      { path: "/", element: <Index /> },
     ],
   },
 ]);

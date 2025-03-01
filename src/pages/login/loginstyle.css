@@ -1,0 +1,151 @@
+/* 🔹 นำเข้า LINE Seed Sans TH */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;700&display=swap");
+
+/* 🔹 ตั้งค่าฟอนต์หลัก */
+body {
+  font-family: "Noto Sans Thai", sans-serif;
+}
+
+/* 🔹 ใช้ฟอนต์ Noto Sans Thai กับทุก Element */
+* {
+  font-family: "Noto Sans Thai", sans-serif !important;
+}
+
+/* 🔹 เปลี่ยนฟอนต์ของ placeholder */
+input::placeholder,
+textarea::placeholder {
+  font-family: "Noto Sans Thai", sans-serif;
+  color: #999;
+  font-size: 14px;
+}
+
+/* 🔹 เปลี่ยนสีขอบของ Textbox และปรับขอบมน */
+.ant-input,
+.ant-input-password,
+.ant-input-affix-wrapper {
+  border-color: #249b4f !important;
+  border-radius: 8px; /* ขอบโค้งเล็กน้อย */
+  transition: all 0.3s ease-in-out;
+}
+
+/* 🔹 เปลี่ยนสีขอบ Textbox เมื่อ Hover หรือ Focus */
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-password:hover,
+.ant-input-password:focus,
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus {
+  border-color: #1e8440 !important;
+  box-shadow: 0 0 5px rgba(36, 155, 79, 0.5); /* เพิ่มเงา */
+}
+
+/* 🔹 ปรับสีของ Input Password (กรอบนอก) */
+.ant-input-affix-wrapper {
+  border-color: #249b4f !important;
+}
+
+/* 🔹 เปลี่ยนสีของปุ่มลงชื่อเข้าใช้ และสมัครเข้าใช้ */
+button.ant-btn-primary {
+  background-color: #249b4f !important;
+  border-color: #249b4f !important;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button.ant-btn-primary:hover,
+button.ant-btn-primary:focus {
+  background-color: #1e8440 !important;
+  border-color: #1e8440 !important;
+}
+
+/* 🔹 เปลี่ยนสีของ Tabs */
+.ant-tabs-tab {
+  font-family: "Noto Sans Thai", sans-serif !important;
+  font-size: 16px;
+  font-weight: 700;
+  color: #444 !important; /* สีปกติของ Tab */
+}
+
+/* 🔹 เปลี่ยนสีของ Tab ที่ถูกเลือก */
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #249b4f !important;
+}
+
+.ant-tabs-ink-bar {
+  background-color: #249b4f !important; /* เปลี่ยนสีขีดเส้นใต้ของ Tab */
+}
+
+/* 🔹 ทำให้พื้นหลังเป็นภาพเต็มจอ */
+.login-container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: flex-end;
+  background-image: url("../../images/index.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-right: 5%;
+  padding-left: 0;
+}
+
+/* 🔹 ปรับขนาดการ์ด */
+.login-card {
+  width: 500px;
+  max-width: 90%;
+  padding: 40px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  margin-right: 2%;
+}
+
+/* 🔹 ปรับฟอนต์ให้ดูสวยขึ้น */
+.login-card h2,
+.login-card label,
+.login-card button {
+  font-family: "Noto Sans Thai", sans-serif;
+}
+
+/* 🔹 Responsive: บนแท็บเล็ต */
+@media (max-width: 1024px) {
+  .login-container {
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .login-card {
+    width: 80%;
+    margin-right: 0;
+  }
+}
+
+/* 🔹 Responsive: บนมือถือ */
+@media (max-width: 768px) {
+  .login-container {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .login-card {
+    width: 95%;
+    padding: 30px;
+    margin-right: 0;
+  }
+}
+/* 🔹 Animation: Scale-in (Zoom-in) */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 🔹 ใช้ Animation กับฟอร์ม */
+.auth-form {
+  animation: scaleIn 0.3s ease-in-out;
+}
