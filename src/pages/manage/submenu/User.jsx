@@ -30,18 +30,30 @@ const User = () => {
   const [addForm] = Form.useForm();
 
   useEffect(() => {
+    let isMounted = true; // ตรวจสอบว่า component ยังอยู่
+
     const loadUsers = async () => {
       setLoading(true);
       try {
         const data = await fetchUsers();
-        setUsers(data);
+        if (isMounted) {
+          setUsers(data);
+        }
       } catch (error) {
-        message.error("โหลดข้อมูลผู้ใช้ล้มเหลว!");
+        if (isMounted) {
+          message.error("โหลดข้อมูลผู้ใช้ล้มเหลว!");
+        }
       }
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     };
 
     loadUsers();
+
+    return () => {
+      isMounted = false; // Cleanup function ป้องกัน state update หลัง component unmount
+    };
   }, []);
 
   const handleModalClose = () => {
@@ -60,6 +72,34 @@ const User = () => {
       status: user.status,
     });
     setIsModalVisible(true);
+  };
+
+  const handleToggleStatus = async (uid, currentStatus) => {
+    try {
+      console.log(
+        `🔄 กำลังเปลี่ยนสถานะของ UID: ${uid}, สถานะเดิม: ${currentStatus}`
+      );
+
+      // ✅ เรียกใช้ toggleUserStatus จาก UserFunc.js
+      const newStatus = await toggleUserStatus(uid, currentStatus);
+
+      if (newStatus) {
+        // ✅ อัปเดต UI ทันที โดยใช้ setUsers()
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.uid === uid ? { ...user, status: newStatus } : user
+          )
+        );
+
+        message.success(`เปลี่ยนสถานะเป็น ${newStatus} สำเร็จ!`);
+        console.log(`✅ เปลี่ยนสถานะของผู้ใช้ ${uid} เป็น: ${newStatus}`);
+      } else {
+        throw new Error("เกิดข้อผิดพลาดในการอัปเดต Firestore");
+      }
+    } catch (error) {
+      console.error("❌ เปลี่ยนสถานะล้มเหลว:", error);
+      message.error("ไม่สามารถเปลี่ยนสถานะได้!");
+    }
   };
 
   const handleSaveUser = async () => {
@@ -83,11 +123,10 @@ const User = () => {
   };
 
   const handleAddUser = async () => {
-    setLoading(true);
     try {
       const values = await addForm.validateFields();
+      setLoading(true); // เปิด loading ก่อนทำงานสำคัญ
 
-      // ✅ Firebase Auth - สร้างบัญชีผู้ใช้
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         values.email,
@@ -105,27 +144,16 @@ const User = () => {
         createdAt: Timestamp.fromDate(new Date()),
       };
 
-      // ✅ Firestore - บันทึกข้อมูลผู้ใช้
       await setDoc(doc(db, "users", newUserId), newUser);
 
       message.success("เพิ่มผู้ใช้สำเร็จ!");
       setUsers((prevUsers) => [...prevUsers, newUser]);
-      handleModalClose();
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้:", error);
-
-      // ✅ ตรวจสอบรหัสข้อผิดพลาดของ Firebase
-      if (error.code === "auth/email-already-in-use") {
-        message.error("อีเมลนี้ถูกใช้งานแล้ว!");
-      } else if (error.code === "auth/weak-password") {
-        message.error("รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร!");
-      } else if (error.code === "auth/invalid-email") {
-        message.error("รูปแบบอีเมลไม่ถูกต้อง!");
-      } else {
-        message.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้ กรุณาลองอีกครั้ง!");
-      }
+      message.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้ กรุณาลองอีกครั้ง!");
+    } finally {
+      setLoading(false); // ปิด loading หลังจากทุกอย่างเสร็จ
     }
-    setLoading(false);
   };
 
   const roles = [
@@ -156,7 +184,7 @@ const User = () => {
         columns={userColumns(
           handleEditUser,
           handleDeleteUser,
-          toggleUserStatus,
+          handleToggleStatus,
           pagination
         )}
         data={users}

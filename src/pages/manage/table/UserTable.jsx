@@ -91,8 +91,20 @@ export const userColumns = (
     ),
     dataIndex: "createdAt",
     key: "createdAt",
-    render: (timestamp) =>
-      timestamp ? new Date(timestamp.toDate()).toLocaleString() : "-",
+    render: (timestamp) => {
+      if (!timestamp) return "-";
+
+      // แปลงเป็นวันที่ไทย (พ.ศ.) และเวลา 24 ชม.
+      const date = timestamp.toDate();
+      return date.toLocaleString("th-TH", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false, // ใช้เวลา 24 ชั่วโมง
+      });
+    },
     sorter: (a, b) =>
       (a.createdAt?.toDate() || 0) - (b.createdAt?.toDate() || 0),
     defaultSortOrder: "ascend",
@@ -110,7 +122,7 @@ export const userColumns = (
     render: (status, record) => (
       <Switch
         checked={status === "active"}
-        onChange={() => handleToggleStatus(record.uid, status)}
+        onChange={() => handleToggleStatus(record.uid, status)} // ✅ ต้องเรียกใช้ handleToggleStatus ที่ส่งมาจาก User.jsx
         checkedChildren="Active"
         unCheckedChildren="Disable"
       />
