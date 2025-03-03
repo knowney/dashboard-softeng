@@ -21,7 +21,6 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../service/firebaseDb";
 import "./AppLayout.css"; // ✅ ใช้ CSS ใหม่
-// import binLogo from "../images/binLogo.svg";
 import profileImage from "../images/2003.png";
 
 const { Header, Content } = Layout;
@@ -63,67 +62,66 @@ const AppLayout = () => {
     });
   };
 
-  // ✅ เมนู Dropdown สำหรับผู้ใช้ (Profile + Logout)
-  const userMenu = (
-    <Menu>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
-        Profile
-      </Menu.Item>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Item key="help" icon={<AppstoreAddOutlined />}>
-        Help Center
-      </Menu.Item>
-      <Menu.Item
-        key="logout"
-        icon={<LogoutOutlined />}
-        style={{ color: "red" }}
-        onClick={handleLogout}
-      >
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
+  // ✅ เมนูหลัก (แก้ไขใหม่ ใช้ `items` แทน `Menu.Item`)
+  const menuItems = [
+    {
+      key: "/dashboard",
+      icon: <DashboardOutlined />,
+      label: <Link to="/dashboard">ผลสรุป</Link>,
+    },
+    {
+      key: "manage",
+      icon: <ToolOutlined />,
+      label: "Manage",
+      children: [
+        { key: "/manage/user", label: <Link to="/manage/user">User</Link> },
+        { key: "/manage/bin", label: <Link to="/manage/bin">Bin</Link> },
+        {
+          key: "/manage/category",
+          label: <Link to="/manage/category">Category</Link>,
+        },
+      ],
+    },
+    {
+      key: "/setting",
+      icon: <SettingOutlined />,
+      label: <Link to="/setting">Setting</Link>,
+    },
+  ];
+
+  // ✅ เมนู Dropdown สำหรับผู้ใช้ (แก้ไขใหม่ ใช้ `items` แทน `Menu.Item`)
+  const userMenuItems = [
+    { key: "profile", icon: <UserOutlined />, label: "Profile" },
+    { key: "settings", icon: <SettingOutlined />, label: "Settings" },
+    { key: "help", icon: <AppstoreAddOutlined />, label: "Help Center" },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      label: "Logout",
+      danger: true,
+      onClick: handleLogout,
+    },
+  ];
 
   return (
     <Layout className="app-layout">
       {/* 🔹 Header Navbar */}
       <Header className={`app-layout-header ${isScrolled ? "scrolled" : ""}`}>
         <div className="logo">
-          {/* <img src={binLogo} alt="Logo" className="logo-image" /> */}
           <Title level={3} className="app-layout-title"></Title>
         </div>
+
         {/* 🔹 เมนูหลัก */}
         <Menu
           theme="light"
           mode="horizontal"
           selectedKeys={[location.pathname]}
           className="app-layout-menu"
-        >
-          <Menu.Item key="/index">
-            <Link to="/index"></Link>
-          </Menu.Item>
-          <Menu.Item key="/dashboard" icon={<DashboardOutlined />}>
-            <Link to="/dashboard">ผลสรุป</Link>
-          </Menu.Item>
-          <Menu.SubMenu key="manage" icon={<ToolOutlined />} title="Manage">
-            <Menu.Item key="/manage/user">
-              <Link to="/manage/user">User</Link>
-            </Menu.Item>
-            <Menu.Item key="/manage/bin">
-              <Link to="/manage/bin">Bin</Link>
-            </Menu.Item>
-            <Menu.Item key="/manage/category">
-              <Link to="/manage/category">Category</Link>
-            </Menu.Item>
-          </Menu.SubMenu>
-          <Menu.Item key="/setting" icon={<SettingOutlined />}>
-            <Link to="/setting">Setting</Link>
-          </Menu.Item>
-        </Menu>
+          items={menuItems} // ✅ ใช้ `items` แทน `Menu.Item`
+        />
+
         {/* 🔹 Dropdown Profile */}
-        <Dropdown overlay={userMenu} trigger={["click"]}>
+        <Dropdown menu={{ items: userMenuItems }} trigger={["click"]}>
           <Space className="profile-section">
             <Avatar
               src={profileImage}

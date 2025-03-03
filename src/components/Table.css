@@ -1,0 +1,77 @@
+.custom-table-container {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 90%;
+  min-width: 1000px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.custom-table {
+  min-width: 1000px;
+}
+
+.custom-table-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* ✅ ปรับให้แถบค้นหาและปุ่มอยู่ในแถวเดียวกัน */
+.custom-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* ✅ ทำให้ค้นหาอยู่ซ้าย ปุ่มอยู่ขวา */
+  margin-bottom: 20px;
+}
+
+/* ✅ กำหนดให้แถบค้นหาขยายได้ */
+.custom-table-header .custom-table-search {
+  width: 300px;
+  flex-shrink: 0; /* ✅ ป้องกันการย่อขนาด */
+}
+
+/* ✅ ทำให้ปุ่ม "เพิ่มผู้ใช้งาน" อยู่ขวาสุด */
+.custom-table-header .extra-content {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0; /* ✅ ป้องกันการย่อขนาด */
+}
+
+.custom-table .ant-table {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: white;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f0f2f5;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+  padding: 12px;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  text-align: center;
+  padding: 12px;
+  white-space: nowrap;
+}
+
+.custom-table .ant-pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.custom-table .action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.custom-table .ant-switch {
+  transform: scale(1.1);
+}

@@ -50,9 +50,11 @@ const Login = () => {
 
         await setDoc(doc(collection(db, "users"), userCredential.user.uid), {
           name: values.name,
+          lastName: values.lastName, // ✅ บันทึกนามสกุล
           email: values.email,
           uid: userCredential.user.uid,
           role: "user",
+          status: "active", // ✅ เพิ่มค่าเริ่มต้นเป็น active
           createdAt: new Date(),
         });
       } else {
@@ -75,7 +77,6 @@ const Login = () => {
   };
 
   // ✅ ฟังก์ชัน Forgot Password
-
   const handleForgotPassword = async () => {
     if (!resetEmail) {
       message.warning("กรุณากรอกอีเมลของคุณ");
@@ -154,11 +155,21 @@ const Login = () => {
               }`} // ✅ ใช้ animation scaleIn
             >
               <Form.Item
-                label="ชื่อ-สกุล"
+                label="ชื่อ"
                 name="name"
                 rules={[{ required: true, message: "กรุณากรอกชื่อ !" }]}
               >
                 <Input placeholder="กรุณากรอกชื่อ" prefix={<UserOutlined />} />
+              </Form.Item>
+              <Form.Item
+                label="นามสกุล"
+                name="lastName"
+                rules={[{ required: true, message: "กรุณากรอกนามสกุล !" }]}
+              >
+                <Input
+                  placeholder="กรุณากรอกนามสกุล"
+                  prefix={<UserOutlined />}
+                />
               </Form.Item>
               <Form.Item
                 label="อีเมล"
@@ -214,24 +225,6 @@ const Login = () => {
           </Tabs.TabPane>
         </Tabs>
       </Card>
-      {/* ✅ Modal สำหรับ Reset Password */}
-      <Modal
-        title="ลืมรหัสผ่าน"
-        open={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
-        footer={null}
-      >
-        <p>กรุณากรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน</p>
-        <Input
-          placeholder="your@email.com"
-          value={resetEmail}
-          onChange={(e) => setResetEmail(e.target.value)}
-          style={{ marginBottom: "10px" }}
-        />
-        <Button type="primary" block onClick={handleForgotPassword}>
-          ส่งอีเมลรีเซ็ตรหัสผ่าน
-        </Button>
-      </Modal>
     </div>
   );
 };
