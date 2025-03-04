@@ -19,8 +19,11 @@
   padding: 16px 24px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: all 0.4s ease-in-out;
+  gap: 20px; /* ✅ ปรับระยะห่าง */
 }
-
+.app-menu {
+  flex-grow: 1; /* ✅ ให้เมนูขยายเต็มพื้นที่ */
+}
 /* ✅ เพิ่ม Animation เมื่อ Header เป็น Sticky */
 .app-layout-header.scrolled {
   background: rgba(255, 255, 255, 0.95); /* ✅ ทำให้โปร่งใสนิดหน่อย */
@@ -99,4 +102,9 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+/* ป้องกันเมนูถูกซ่อนเป็น Dropdown */
+.ant-menu-horizontal {
+  flex-wrap: nowrap !important; /* ✅ บังคับให้แสดงเมนูแนวนอน */
+  overflow: visible !important; /* ✅ ปิดการตัดเมนูออก */
 }

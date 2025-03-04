@@ -19,15 +19,6 @@ textarea::placeholder {
   font-size: 14px;
 }
 
-/* 🔹 เปลี่ยนสีขอบของ Textbox และปรับขอบมน */
-.ant-input,
-.ant-input-password,
-.ant-input-affix-wrapper {
-  border-color: #249b4f !important;
-  border-radius: 8px; /* ขอบโค้งเล็กน้อย */
-  transition: all 0.3s ease-in-out;
-}
-
 /* 🔹 เปลี่ยนสีขอบ Textbox เมื่อ Hover หรือ Focus */
 .ant-input:hover,
 .ant-input:focus,

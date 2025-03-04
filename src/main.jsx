@@ -7,8 +7,9 @@ import Setting from "./pages/setting/Setting.jsx";
 import User from "./pages/manage/submenu/User.jsx";
 import Bin from "./pages/manage/submenu/Bin.jsx";
 import Category from "./pages/manage/submenu/Category.jsx";
-import Login from "./pages/login/login.jsx"; // ✅ Import Login
-import Index from "./pages/index/Index.jsx"; // ✅ Import Login
+import Login from "./pages/login/login.jsx";
+import Index from "./pages/index/Index.jsx";
+import WorkDay from "./pages/working/WorkDay.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx"; // ✅ Import ProtectedRoute
 
 // กำหนด router
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "dashboard", element: <Dashboard /> },
+      { path: "work-day", element: <WorkDay /> },
       {
         path: "manage",
         children: [

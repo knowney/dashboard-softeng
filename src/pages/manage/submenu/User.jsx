@@ -157,8 +157,9 @@ const User = () => {
   };
 
   const roles = [
-    { value: "user", label: "👤 ผู้ใช้" },
-    { value: "admin", label: "🔧 แอดมิน" },
+    { value: "ผู้ใช้งาน", label: "👤 ผู้ใช้งาน" },
+    { value: "พนักงาน ", label: "👤 พนักงาน" },
+    { value: "แอดมิน", label: "🔧 แอดมิน" },
   ];
   const handleDeleteUser = async (uid) => {
     setLoading(true);
@@ -356,7 +357,8 @@ const User = () => {
             rules={[{ required: true, message: "กรุณาเลือกบทบาท" }]}
           >
             <Select placeholder="เลือกบทบาท" suffixIcon={<SettingOutlined />}>
-              <Select.Option value="user">👤 ผู้ใช้</Select.Option>
+              <Select.Option value="ผู้ใช้งาน">👤 ผู้ใช้งาน</Select.Option>
+              <Select.Option value="พนักงาน">👤 พนักงาน</Select.Option>
               <Select.Option value="admin">🔧 แอดมิน</Select.Option>
             </Select>
           </Form.Item>

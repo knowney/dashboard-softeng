@@ -53,7 +53,7 @@ const Login = () => {
           lastName: values.lastName, // ✅ บันทึกนามสกุล
           email: values.email,
           uid: userCredential.user.uid,
-          role: "user",
+          role: "ผู้ใช้งาน",
           status: "active", // ✅ เพิ่มค่าเริ่มต้นเป็น active
           createdAt: new Date(),
         });
