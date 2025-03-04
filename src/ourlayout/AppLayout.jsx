@@ -124,11 +124,11 @@ const AppLayout = () => {
           },
         ]
       : []),
-    {
-      key: "/setting",
-      icon: <SettingOutlined />,
-      label: <Link to="/setting">ตั้งค่า</Link>,
-    },
+    // {
+    //   key: "/setting",
+    //   icon: <SettingOutlined />,
+    //   label: <Link to="/setting">ตั้งค่า</Link>,
+    // },
   ];
 
   // ✅ เมนู Dropdown สำหรับผู้ใช้

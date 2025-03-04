@@ -5,6 +5,7 @@ import {
   query,
   where,
   Timestamp,
+  addDoc,
 } from "firebase/firestore";
 import dayjs from "dayjs";
 
@@ -34,9 +35,10 @@ export const fetchWorkDataByPeriod = async (period) => {
 
     // ✅ Query ข้อมูลจาก Firestore
     const q = query(
-      collection(db, "WorkDay"),
+      collection(db, "WorkDay"), // ✅ ตรวจสอบว่า collection ชื่อนี้ถูกต้องใน Firestore
       where("workDate", ">=", Timestamp.fromDate(startDate))
     );
+
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
@@ -91,13 +93,17 @@ export const fetchWorkDataByPeriod = async (period) => {
 
 // ✅ ฟังก์ชันเพิ่มข้อมูล WorkDay ลง Firestore
 export const addWorkData = async (workData) => {
-  // <---- ต้องมี `export`
   try {
     const docRef = await addDoc(collection(db, "WorkDay"), {
       ...workData,
-      workDate: Timestamp.fromDate(new Date(workData.workDate)), // ✅ แปลงเป็น Timestamp
-      createdAt: Timestamp.now(), // ✅ เวลาที่เพิ่มข้อมูล
+      workDate:
+        workData.workDate instanceof Date
+          ? Timestamp.fromDate(workData.workDate) // ✅ แปลงเป็น Timestamp ถ้ายังเป็น Date
+          : workData.workDate, // ✅ ใช้เดิมถ้าเป็น Timestamp แล้ว
+      createdAt: Timestamp.now(),
     });
+
+    console.log("🔥 เพิ่มข้อมูลสำเร็จ ID:", docRef.id);
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error("❌ เกิดข้อผิดพลาดในการเพิ่มข้อมูล:", error);
