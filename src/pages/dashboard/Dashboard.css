@@ -1,0 +1,95 @@
+/* ✅ Layout หลักของ Dashboard */
+.dashboard-container {
+  padding: 24px;
+}
+
+/* ✅ จัดการ Layout ของ Card */
+.dashboard-card {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  min-height: 350px;
+}
+
+/* ✅ ทำให้ Doughnut Chart ดูสมดุล */
+.dashboard-card .chart-container {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* ✅ Center Loading Spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+/* ✅ Chart ขนาด Responsive */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* ✅ สไตล์ของตัวเลขข้อมูล */
+.data-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* ✅ สีสำหรับข้อมูลขยะมูลฝอย */
+.solid-waste {
+  color: #388e3c; /* 🟢 สีเขียวเข้มขึ้น */
+}
+
+/* ✅ สีสำหรับข้อมูลขยะติดเชื้อ */
+.medical-waste {
+  color: #d32f2f; /* 🔴 สีแดงเข้มขึ้น */
+}
+
+/* ✅ เปลี่ยนสี Header ของ Card ตามประเภทข้อมูล */
+.solid-waste-card .ant-card-head {
+  background-color: #388e3c; /* 🟢 สีเขียวเข้มขึ้น */
+}
+
+.medical-waste-card .ant-card-head {
+  background-color: #c24a4a; /* 🔴 สีแดงเข้มขึ้น */
+  color: #fff;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.chart-card .ant-card-head {
+  background-color: #1565c0; /* 🔵 สีน้ำเงินเข้มขึ้น */
+}
+
+/* ✅ สีสำหรับ "📋 รายงานภาพรวม" */
+.summary-card .ant-card-head {
+  background-color: #4e4e8d; /* 🟠 สีส้มเข้ม */
+}
+
+/* ✅ เปลี่ยนสีฟ้อนต์ของหัว Card เป็นสีขาว */
+.dashboard-card .ant-card-head {
+  color: white; /* ✅ เปลี่ยนสีฟ้อนต์เป็นสีขาว */
+  border-radius: 8px 8px 0 0;
+}
+
+/* ✅ ทำให้ตัวอักษรในหัว Card เป็นสีขาว */
+.dashboard-card .ant-card-head-title {
+  color: white !important;
+  font-weight: bold;
+}
+.doughnut-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 330px; /* ✅ ปรับขนาดสูงขึ้น */
+}
+
+.doughnut-chart {
+  max-width: 300px !important; /* ✅ ปรับขนาดวงกลมให้ใหญ่ขึ้น */
+  max-height: 300px !important;
+}

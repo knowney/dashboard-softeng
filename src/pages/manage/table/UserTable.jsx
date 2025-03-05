@@ -12,7 +12,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { Modal } from "antd";
-
+import "./UserTable.css";
 export const userColumns = (
   handleEditUser,
   handleDeleteUser,
@@ -26,6 +26,8 @@ export const userColumns = (
       </>
     ),
     key: "index",
+    width: 80, // ✅ ปรับขนาดคอลัมน์
+    fixed: "left", // ✅ ทำให้ลำดับอยู่ซ้ายเสมอ
     render: (_, __, index) =>
       ((pagination?.current || 1) - 1) * (pagination?.pageSize || 5) +
       index +
@@ -42,6 +44,8 @@ export const userColumns = (
     sorter: (a, b) =>
       (a.name?.toString() || "").localeCompare(b.name?.toString() || ""),
     defaultSortOrder: "ascend",
+    ellipsis: true, // ✅ ทำให้ข้อความไม่ยาวเกินไป
+    responsive: ["sm"], // ✅ ซ่อนบนจอเล็ก
   },
   {
     title: (
@@ -55,6 +59,8 @@ export const userColumns = (
       (a.lastName?.toString() || "").localeCompare(
         b.lastName?.toString() || ""
       ),
+    ellipsis: true,
+    responsive: ["md"], // ✅ ซ่อนบนจอเล็กมาก
   },
   {
     title: (
@@ -66,6 +72,8 @@ export const userColumns = (
     key: "email",
     sorter: (a, b) =>
       (a.email?.toString() || "").localeCompare(b.email?.toString() || ""),
+    ellipsis: true,
+    responsive: ["lg"], // ✅ ซ่อนบนจอขนาดกลาง
   },
   {
     title: (
@@ -82,6 +90,7 @@ export const userColumns = (
     onFilter: (value, record) => record.role === value,
     sorter: (a, b) =>
       (a.role?.toString() || "").localeCompare(b.role?.toString() || ""),
+    responsive: ["sm"],
   },
   {
     title: (
@@ -93,8 +102,6 @@ export const userColumns = (
     key: "createdAt",
     render: (timestamp) => {
       if (!timestamp) return "-";
-
-      // แปลงเป็นวันที่ไทย (พ.ศ.) และเวลา 24 ชม.
       const date = timestamp.toDate();
       return date.toLocaleString("th-TH", {
         year: "numeric",
@@ -102,12 +109,13 @@ export const userColumns = (
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-        hour12: false, // ใช้เวลา 24 ชั่วโมง
+        hour12: false,
       });
     },
     sorter: (a, b) =>
       (a.createdAt?.toDate() || 0) - (b.createdAt?.toDate() || 0),
     defaultSortOrder: "ascend",
+    responsive: ["md"], // ✅ ซ่อนบนจอเล็กมาก
   },
   {
     title: (
@@ -122,16 +130,18 @@ export const userColumns = (
     render: (status, record) => (
       <Switch
         checked={status === "active"}
-        onChange={() => handleToggleStatus(record.uid, status)} // ✅ ต้องเรียกใช้ handleToggleStatus ที่ส่งมาจาก User.jsx
+        onChange={() => handleToggleStatus(record.uid, status)}
         checkedChildren="Active"
         unCheckedChildren="Disable"
       />
     ),
+    fixed: "right", // ✅ ให้สถานะอยู่ขวาสุดเสมอ
   },
   {
     key: "action",
+    fixed: "right",
+    width: 80, // ✅ กำหนดขนาดให้พอดี
     render: (_, record) => {
-      // ✅ ฟังก์ชันยืนยันการลบ
       const confirmDelete = () => {
         Modal.confirm({
           title: "ยืนยันการลบ",
@@ -144,7 +154,6 @@ export const userColumns = (
         });
       };
 
-      // ✅ เพิ่มตัวเลือก "ลบ" ลงใน dropdown
       const menuItems = [
         {
           key: "edit",
@@ -156,7 +165,7 @@ export const userColumns = (
           key: "delete",
           icon: <DeleteOutlined style={{ color: "red" }} />,
           label: <span style={{ color: "red" }}>ลบ</span>,
-          onClick: confirmDelete, // ✅ เรียก Modal ยืนยันก่อนลบ
+          onClick: confirmDelete,
         },
       ];
 

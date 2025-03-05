@@ -18,7 +18,7 @@ import { userColumns } from "../table/UserTable";
 import { Timestamp, setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth"; // ✅ ใช้ Firebase Auth ถ้าต้องการเก็บรหัสผ่าน
 import { db, auth } from "../../../service/firebaseDb"; // ✅ ตรวจสอบว่า import db และ auth ถูกต้อง
-
+import "../css/User.css";
 const User = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -125,8 +125,9 @@ const User = () => {
   const handleAddUser = async () => {
     try {
       const values = await addForm.validateFields();
-      setLoading(true); // เปิด loading ก่อนทำงานสำคัญ
+      setLoading(true); // ✅ เปิด loading ก่อนทำงานสำคัญ
 
+      // ✅ สร้างบัญชีผู้ใช้บน Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         values.email,
@@ -134,6 +135,7 @@ const User = () => {
       );
       const newUserId = userCredential.user.uid;
 
+      // ✅ เตรียมข้อมูล User สำหรับ Firestore
       const newUser = {
         uid: newUserId,
         name: values.name,
@@ -144,15 +146,21 @@ const User = () => {
         createdAt: Timestamp.fromDate(new Date()),
       };
 
+      // ✅ เพิ่มข้อมูล User ลง Firestore
       await setDoc(doc(db, "users", newUserId), newUser);
 
+      // ✅ แจ้งเตือน & อัปเดต UI
       message.success("เพิ่มผู้ใช้สำเร็จ!");
       setUsers((prevUsers) => [...prevUsers, newUser]);
+
+      // ✅ ปิด Modal และรีเซ็ตฟอร์ม
+      setIsAddModalVisible(false);
+      addForm.resetFields();
     } catch (error) {
-      console.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้:", error);
+      console.error("❌ เกิดข้อผิดพลาดในการเพิ่มผู้ใช้:", error);
       message.error("เกิดข้อผิดพลาดในการเพิ่มผู้ใช้ กรุณาลองอีกครั้ง!");
     } finally {
-      setLoading(false); // ปิด loading หลังจากทุกอย่างเสร็จ
+      setLoading(false); // ✅ ปิด loading หลังจากทุกอย่างเสร็จ
     }
   };
 
@@ -192,15 +200,19 @@ const User = () => {
         loading={loading}
         pagination={pagination}
         setPagination={setPagination}
+        scroll={{ x: "max-content" }} // ✅ รองรับการเลื่อนแนวนอน
+        size="middle" // ✅ ปรับขนาดแถวให้เล็กลง
         extraContent={
-          <Button
-            type="primary"
-            icon={<UserAddOutlined />}
-            onClick={() => setIsAddModalVisible(true)}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
-          >
-            เพิ่มผู้ใช้งาน
-          </Button>
+          <div className="flex justify-between items-center mb-4">
+            <Button
+              type="primary"
+              icon={<UserAddOutlined />}
+              onClick={() => setIsAddModalVisible(true)}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+            >
+              เพิ่มผู้ใช้งาน
+            </Button>
+          </div>
         }
       />
 
@@ -264,10 +276,11 @@ const User = () => {
       <Modal
         title="เพิ่มผู้ใช้"
         open={isAddModalVisible}
-        onCancel={handleModalClose}
-        onOk={handleAddUser}
+        onCancel={handleModalClose} // ✅ ปิด Modal เมื่อกดปุ่ม "ยกเลิก"
+        onOk={handleAddUser} // ✅ เรียก handleAddUser เมื่อกด "เพิ่ม"
         okText="เพิ่ม"
         cancelText="ยกเลิก"
+        confirmLoading={loading} // ✅ ให้ปุ่ม "เพิ่ม" แสดงสถานะ Loading
         centered
       >
         <Form
@@ -276,7 +289,7 @@ const User = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
-          {/* ✅ ชื่อ - นามสกุล (รวมเป็นบรรทัดเดียว) */}
+          {/* ✅ ชื่อ - นามสกุล */}
           <Form.Item label="ชื่อ - นามสกุล">
             <Input.Group compact>
               <Form.Item

@@ -1,110 +1,230 @@
-/* ✅ Layout พื้นฐาน */
-.app-layout {
-  min-height: 100vh;
-  background: #f4f6f9;
-}
-
-/* ✅ Header Navbar - ปรับให้ Sticky, Gradient และมีเงา */
-/* ✅ ปรับ Header ให้นุ่มนวลขึ้นเมื่อเป็น Sticky */
-.app-layout-header {
-  position: sticky;
+/* Navbar */
+.navbar {
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  z-index: 1000;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
-  padding: 16px 24px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: all 0.4s ease-in-out;
-  gap: 20px; /* ✅ ปรับระยะห่าง */
-}
-.app-menu {
-  flex-grow: 1; /* ✅ ให้เมนูขยายเต็มพื้นที่ */
-}
-/* ✅ เพิ่ม Animation เมื่อ Header เป็น Sticky */
-.app-layout-header.scrolled {
-  background: rgba(255, 255, 255, 0.95); /* ✅ ทำให้โปร่งใสนิดหน่อย */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  padding: 12px 20px; /* ✅ ลดขนาด padding เมื่อ Scroll */
+  padding: 15px 20px;
+  background-color: white;
+  z-index: 1000;
+  height: 70px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ✅ โลโก้ & ชื่อแอปเปลี่ยนขนาดเมื่อ Scroll */
-.app-layout-header.scrolled .app-layout-title {
-  font-size: 18px; /* ✅ ลดขนาดตัวอักษร */
-  opacity: 0.9;
-}
-
-/* ✅ Avatar มี Animation */
-.profile-avatar {
-  transition: transform 0.3s ease-in-out;
-}
-
-.app-layout-header.scrolled .profile-avatar {
-  transform: scale(0.9); /* ✅ ลดขนาด Avatar */
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 80px; /* ✅ ปรับขนาดให้พอดี */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: white;
+  z-index: 1050; /* ✅ เพิ่มค่า z-index เพื่อให้ Navbar อยู่ด้านบน */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ✅ โลโก้ & ชื่อแอป */
-.logo {
+/* Menu */
+.menu {
   display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 15px;
   align-items: center;
 }
 
-.logo img {
-  height: 45px;
-  margin-right: 12px;
+/* Navbar Links - ปรับให้มีขอบล้อมรอบแบบโปร่งใส */
+.navbar a {
+  position: relative;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px; /* ✅ ลด Padding ให้ปุ่มเล็กลง */
+  border: 0.5px solid #249b4f; /* ✅ เส้นขอบรอบเมนู */
+  border-radius: 60px; /* ✅ ลดขนาดโค้งมนจาก 25px เป็น 10px */
+  transition: all 0.3s ease-in-out;
+  background-color: transparent; /* ✅  พื้นหลังโปร่งใส */
 }
 
-/* ✅ Profile Section */
-.profile-section {
+/* เอฟเฟกต์เมื่อ Hover */
+.navbar a:hover {
+  background-color: #249b4f; /* ✅ เปลี่ยนพื้นหลังเป็นสีดำ */
+  color: white; /* ✅ เปลี่ยนฟ้อนต์เป็นสีขาว */
+  border-color: rgb(255, 255, 255); /* ✅ เปลี่ยนขอบเป็นสีดำ */
+}
+.navbar a.active {
+  background-color: #249b4f; /* ✅ เปลี่ยนพื้นหลังเป็นสีดำ */
+  color: white; /* ✅ เปลี่ยนฟ้อนต์เป็นสีขาว */
+  border-color: #249b4f; /* ✅ เปลี่ยนขอบเป็นสีดำ */
+  font-weight: bold;
+}
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed; /* ✅ ป้องกันเมนูล้นจอ */
+  top: 0;
+  right: -100%; /* ✅ ซ่อนไว้ด้านขวา */
+  width: 250px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: -4px 0px 6px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px; /* เว้นที่ให้ Navbar */
+}
+
+.mobile-menu.show {
+  right: 0; /* ✅ เลื่อนเข้าจอ */
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+  transition: background 0.3s ease-in-out;
+}
+
+.mobile-menu a:hover {
+  background-color: #f8f9fa;
+}
+
+/* Menu Toggle Button (สำหรับมือถือ) */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 50%;
-  transition: background 0.3s ease;
+  transition: transform 0.3s ease-in-out;
 }
 
-/* ✅ Avatar */
-.profile-avatar {
-  background-color: #249b4f;
-  border: 2px solid white;
-  transition: transform 0.2s ease-in-out;
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-/* ✅ Content Layout */
-.app-layout-content {
-  padding: 20px;
-  background: #ffffff;
+.dropdown-toggle {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.3s;
 }
-/* ✅ ทำให้เนื้อหา (Content) ค่อย ๆ ปรากฏเมื่อเปลี่ยนหน้า */
-.app-layout-content {
-  padding: 20px;
-  background: #f4f6f9;
+
+.dropdown-toggle:hover {
+  color: #007bff;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  width: 150px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transform: translateY(-10px);
   opacity: 0;
-  transform: scale(0.95);
-  animation: zoomIn 0.4s ease-in-out forwards;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
-@keyframes zoomIn {
+.dropdown:hover .dropdown-menu {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Dropdown Items */
+.dropdown-menu a,
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.3s;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background-color: #f1f1f1;
+}
+
+/* ปรับการแสดงผลในหน้าจอเล็ก (มือถือ) */
+@media (max-width: 768px) {
+  .menu {
+    display: none; /* ✅ ซ่อนเมนูหลักบนมือถือ */
+  }
+
+  .menu-toggle {
+    display: block; /* ✅ แสดงปุ่ม ☰ บนมือถือ */
+  }
+  .app-container {
+    padding-top: 90px;
+  }
+  .content {
+    padding: 10px; /* ✅ ลด padding ลงบนมือถือ */
+    max-width: 100%; /* ✅ ให้ content ยืดเต็มจอ */
+  }
+}
+
+/* ปรับให้เนื้อหาไม่ถูก Navbar ทับ */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 80px;
+  width: 100%; /* ✅ ให้เต็มจอ */
+  max-width: 100%;
+  overflow-x: hidden; /* ✅ ป้องกันการเลื่อนแนวนอน */
+}
+
+.content {
+  animation: fadeIn 0.5s ease-in-out;
+  flex-grow: 1;
+  padding: 20px;
+  width: 100%; /* ✅ ให้เต็มจอ */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
-/* ป้องกันเมนูถูกซ่อนเป็น Dropdown */
-.ant-menu-horizontal {
-  flex-wrap: nowrap !important; /* ✅ บังคับให้แสดงเมนูแนวนอน */
-  overflow: visible !important; /* ✅ ปิดการตัดเมนูออก */
+@media (max-width: 768px) {
+  .app-container {
+    padding-top: 90px;
+  }
+}
+/* ✅ ปรับแต่งโลโก้ใน Navbar */
+.navbar-logo {
+  height: 50px; /* ✅ ปรับขนาดโลโก้ */
+  width: auto;
+  display: block;
 }

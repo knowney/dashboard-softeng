@@ -11,7 +11,7 @@ import Login from "./pages/login/login.jsx";
 import Index from "./pages/index/Index.jsx";
 import WorkDay from "./pages/working/WorkDay.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx"; // ✅ Import ProtectedRoute
-
+import "./ourlayout/global.css";
 // กำหนด router
 const router = createBrowserRouter([
   {

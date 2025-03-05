@@ -1,0 +1,38 @@
+/* ✅ Container หลักของหน้า */
+.user-container {
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ ทำให้ Table เลื่อนซ้ายขวาได้ */
+.user-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+/* ✅ ป้องกัน Table แคบเกินไป */
+.ant-table {
+  min-width: 800px;
+}
+
+/* ✅ ปรับปุ่มให้ดูดีขึ้น */
+.add-user-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+/* ✅ Responsive สำหรับมือถือ */
+@media (max-width: 768px) {
+  .add-user-button {
+    justify-content: center;
+  }
+
+  .ant-table {
+    font-size: 14px;
+  }
+}

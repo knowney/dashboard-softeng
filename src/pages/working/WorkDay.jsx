@@ -174,7 +174,7 @@ const WorkDay = () => {
             loading={loading}
             className="w-full"
           >
-            ✅ เพิ่มข้อมูล
+            บันทึกผลการกำจัดขยะ
           </Button>
         </Form>
       </Card>

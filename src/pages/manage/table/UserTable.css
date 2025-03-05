@@ -1,0 +1,11 @@
+.user-table-container {
+  width: 100%;
+  overflow-x: auto; /* ✅ ป้องกันตารางล้นขอบหน้าจอ */
+}
+
+.extra-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px; /* ✅ เพิ่มระยะห่าง */
+}

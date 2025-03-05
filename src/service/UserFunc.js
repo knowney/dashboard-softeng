@@ -4,10 +4,10 @@ import {
   doc,
   deleteDoc,
   updateDoc,
-  addDoc,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../../src/service/firebaseDb"; // ✅ นำเข้า Firestore instance
-
+import { deleteUser as deleteAuthUser, getAuth } from "firebase/auth";
 // ✅ ฟังก์ชันดึงข้อมูล Users ทั้งหมด
 export const fetchUsers = async () => {
   try {
@@ -27,11 +27,23 @@ export const fetchUsers = async () => {
 // ✅ ฟังก์ชันลบผู้ใช้
 export const deleteUser = async (uid) => {
   try {
+    console.log("🗑 กำลังลบผู้ใช้:", uid);
+
+    // ✅ ลบจาก Firestore
     await deleteDoc(doc(db, "users", uid));
-    console.log("Deleted user:", uid);
-    return true; // ✅ คืนค่า true ถ้าลบสำเร็จ
+    console.log("✅ ลบจาก Firestore สำเร็จ!");
+
+    // ✅ ลบจาก Firebase Authentication (ต้องเป็นแอดมิน)
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user && user.uid === uid) {
+      await deleteAuthUser(user);
+      console.log("✅ ลบจาก Firebase Authentication สำเร็จ!");
+    }
+
+    return true;
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error("❌ Error deleting user:", error);
     return false;
   }
 };
@@ -63,11 +75,16 @@ export const toggleUserStatus = async (uid, currentStatus) => {
 // ✅ ฟังก์ชันเพิ่มผู้ใช้ใหม่
 export const addUser = async (userData) => {
   try {
-    const docRef = await addDoc(collection(db, "users"), userData);
-    console.log("Added user with ID:", docRef.id);
-    return { uid: docRef.id, ...userData };
+    if (!userData.uid) {
+      throw new Error("UID ไม่ถูกต้อง!"); // ✅ ป้องกันการเพิ่มผู้ใช้โดยไม่มี UID
+    }
+
+    await setDoc(doc(db, "users", userData.uid), userData);
+    console.log("✅ เพิ่มผู้ใช้ลง Firestore สำเร็จ:", userData.uid);
+
+    return { uid: userData.uid, ...userData };
   } catch (error) {
-    console.error("Error adding user:", error);
+    console.error("❌ Error adding user:", error);
     return null;
   }
 };

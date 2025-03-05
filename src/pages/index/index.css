@@ -1,0 +1,44 @@
+/* ✅ Card สำหรับหัวข้อด้านบน */
+.header-card {
+  text-align: center;
+  background: #f5f5f5;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-card h1 {
+  font-size: 24px;
+  color: #2e7d32;
+  margin-bottom: 5px;
+}
+
+.header-card h2 {
+  font-size: 18px;
+  color: #555;
+}
+
+/* ✅ กำหนดขนาดของ Carousel */
+.carousel-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  background: #f5f5f5;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+}
