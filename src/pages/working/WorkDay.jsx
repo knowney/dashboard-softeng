@@ -18,6 +18,7 @@ import {
 import dayjs from "dayjs";
 import { auth, db } from "../../service/firebaseDb"; // Firebase
 import { doc, getDoc } from "firebase/firestore"; // ✅ ควรมีแค่ doc และ getDoc
+import "./WorkDay.css";
 
 const WorkDay = () => {
   const [loading, setLoading] = useState(false);
@@ -97,7 +98,7 @@ const WorkDay = () => {
 
   return (
     <div className="flex justify-center mt-6">
-      <Card title="📋 บันทึกข้อมูลขยะ" className="w-full max-w-md shadow-lg">
+      <Card title=" บันทึกข้อมูลขยะ" className="w-full max-w-md shadow-lg">
         <Form
           form={form}
           layout="vertical"
@@ -129,7 +130,7 @@ const WorkDay = () => {
 
           {/* พนักงาน และ หน่วยงาน */}
           <div className="grid grid-cols-2 gap-4">
-            <Form.Item label="👷‍♂️ เก็บโดย" name="workBy">
+            <Form.Item label="พนักงาน" name="workBy">
               <Input value={userName} readOnly prefix={<UserOutlined />} />
             </Form.Item>
 

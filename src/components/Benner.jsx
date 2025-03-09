@@ -58,13 +58,13 @@ const Benner = () => {
         <Col xs={24} sm={24} md={12} lg={10}>
           <ContentWrapper>
             <p style={{ color: "#6d8f64", fontWeight: "bold" }}>
-              ขยะรีไซเคิลลุ้นโชค
+              รณรงค์ให้แยกขยะ
             </p>
-            <Title>แยก แลก ลุ้น</Title>
+            <Title>รณรงค์ แยก ขยะ</Title>
             <Subtitle>
-              เพียงคุณแยกขยะรีไซเคิลแล้วบริจาคให้เรา รางวัลทองคำอาจเป็นของคุณ!
-              รับสิทธิ์ลุ้นโชคตามปริมาณขยะรีไซเคิลของคุณ ลุ้นรางวัลทองคำและอื่น
-              ๆ ทุกเดือน
+              การลดปริมาณขยะมูลฝอยให้ได้ผลดี
+              ต้องเริ่มที่การคัดแยกขยะมูลฝอยก่อนทิ้ง เพื่อไม่ให้เกิดการปนเปื้อน
+              ทำให้ได้วัสดุเหลือใช้ที่มีคุณภาพสูง
             </Subtitle>
             <Button
               type="primary"
@@ -77,18 +77,7 @@ const Benner = () => {
                 marginRight: "10px",
               }}
             >
-              รีไซเคิลเลย
-            </Button>
-            <Button
-              size="large"
-              style={{
-                background: "#4caf50",
-                color: "#fff",
-                border: "none",
-                fontWeight: "bold",
-              }}
-            >
-              ดูจุดรับ
+              ดูรายละเอียด
             </Button>
           </ContentWrapper>
         </Col>

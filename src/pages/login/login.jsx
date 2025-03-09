@@ -137,12 +137,41 @@ const Login = () => {
               </Form.Item>
               <Form.Item style={{ textAlign: "center" }}>
                 <a
-                  onClick={() => setIsModalVisible(true)}
+                  onClick={() => setIsModalVisible(true)} // เปิด Modal เมื่อกด "ลืมรหัสผ่าน?"
                   style={{ color: "#249b4f", cursor: "pointer" }}
                 >
                   ลืมรหัสผ่าน?
                 </a>
               </Form.Item>
+
+              {/* Modal สำหรับรีเซ็ตรหัสผ่าน */}
+              <Modal
+                title="ลืมรหัสผ่าน"
+                visible={isModalVisible}
+                onCancel={() => setIsModalVisible(false)}
+                footer={[
+                  <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+                    ยกเลิก
+                  </Button>,
+                  <Button
+                    key="submit"
+                    type="primary"
+                    onClick={handleForgotPassword}
+                  >
+                    รีเซ็ตรหัสผ่าน
+                  </Button>,
+                ]}
+              >
+                <Form layout="vertical">
+                  <Form.Item label="กรุณากรอกอีเมลของคุณ">
+                    <Input
+                      placeholder="example@example.com"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                    />
+                  </Form.Item>
+                </Form>
+              </Modal>
             </Form>
           </Tabs.TabPane>
 

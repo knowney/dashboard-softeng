@@ -68,12 +68,12 @@ const AppLayout = () => {
     ...(userRole === "แอดมิน"
       ? [
           { key: "/manage/user", label: "จัดการผู้ใช้", path: "/manage/user" },
-          { key: "/manage/bin", label: "จัดการขยะ", path: "/manage/bin" },
-          {
-            key: "/manage/category",
-            label: "จัดการหมวดหมู่",
-            path: "/manage/category",
-          },
+          // { key: "/manage/bin", label: "จัดการขยะ", path: "/manage/bin" },
+          // {
+          //   key: "/manage/category",
+          //   label: "จัดการหมวดหมู่",
+          //   path: "/manage/category",
+          // },
         ]
       : []),
   ];
@@ -108,7 +108,7 @@ const AppLayout = () => {
               >
                 ตั้งค่า
               </Link>
-              <button onClick={handleLogout}>Logout</button>
+              <button onClick={handleLogout}>ลงชื่อออก</button>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ const Index = () => {
       <Content className="content" style={{ background: "white" }}>
         {/* ✅ Card หัวข้อด้านบน */}
         <Card className="header-card">
-          <h1>องค์การบริหารส่วนจังหวัดนนทบุรี</h1>
+          <h1>องค์การบริหารส่วนจังหวัดนนทบุรี </h1>
           <h2>โครงการพัฒนา Dashboard เพื่อสนับสนุนการบริหารจัดการขยะ</h2>
         </Card>
 
