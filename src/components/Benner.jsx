@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import styled from "styled-components";
 import { PlayCircle } from "lucide-react";
+import bannerImage from "../assets/Group130.png";
 // import bannerImage from "../assets/Nott.jpg"; // เปลี่ยนเป็น path รูปจริง
 
 const BannerWrapper = styled.div`
@@ -91,6 +92,11 @@ const Benner = () => {
             </div>
           </ImageWrapper>
         </Col>
+
+        <ImageWrapper>
+          <img src={bannerImage} alt="Recycling" />
+         
+        </ImageWrapper>
       </Row>
     </BannerWrapper>
   );

@@ -199,14 +199,24 @@
   overflow-x: hidden; /* ✅ ป้องกันการเลื่อนแนวนอน */
 }
 
-.content {
+/* .content {
   animation: fadeIn 0.5s ease-in-out;
   flex-grow: 1;
   padding: 20px;
-  width: 100%; /* ✅ ให้เต็มจอ */
+  width: 100%; 
   max-width: 1200px;
   margin: 0 auto;
+} */
+
+.content {
+  width: 100%; /* ให้เต็มหน้าจอ */
+  max-width: 100%; /* ป้องกันการจำกัดขนาด */
+  padding: 20px; /* เพิ่มระยะห่างด้านข้าง */
 }
+
+
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;
