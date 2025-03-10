@@ -1,52 +1,54 @@
+/* ✅ ทำให้ Container รองรับ Responsive */
 .custom-table-container {
   margin: 20px auto;
   padding: 20px;
-  max-width: 90%;
-  min-width: 1000px;
+  max-width: 100%;
+  width: 100%;
   background: white;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
 }
 
+/* ✅ ปรับให้ Table รองรับการเลื่อนแนวนอน */
 .custom-table {
-  min-width: 1000px;
+  min-width: 800px;
+  width: 100%;
 }
 
-.custom-table-title {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-/* ✅ ปรับให้แถบค้นหาและปุ่มอยู่ในแถวเดียวกัน */
+/* ✅ จัดตำแหน่งช่องค้นหา + ปุ่มให้เหมาะกับหน้าจอเล็ก */
 .custom-table-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* ✅ ทำให้ค้นหาอยู่ซ้าย ปุ่มอยู่ขวา */
+  justify-content: space-between; /* ✅ ค้นหาชิดซ้าย ปุ่มชิดขวา */
+  gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: nowrap; /* ✅ ป้องกันการขึ้นบรรทัดใหม่ */
 }
 
-/* ✅ กำหนดให้แถบค้นหาขยายได้ */
+/* ✅ ปรับขนาดของปุ่มค้นหา (Search) */
 .custom-table-header .custom-table-search {
-  width: 300px;
-  flex-shrink: 0; /* ✅ ป้องกันการย่อขนาด */
+  width: 250px; /* ✅ ลดขนาดเพื่อไม่ให้ใหญ่เกินไป */
+  flex-shrink: 0;
 }
 
-/* ✅ ทำให้ปุ่ม "เพิ่มผู้ใช้งาน" อยู่ขวาสุด */
+/* ✅ ให้ปุ่ม "เพิ่มผู้ใช้งาน" อยู่ขวาสุด */
 .custom-table-header .extra-content {
+  margin-left: auto; /* ✅ ทำให้ปุ่มไปอยู่ขวาสุด */
   display: flex;
   justify-content: flex-end;
-  flex-shrink: 0; /* ✅ ป้องกันการย่อขนาด */
+  flex-shrink: 0;
 }
 
+/* ✅ ปรับดีไซน์ของ Table */
 .custom-table .ant-table {
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: white;
+  overflow-x: auto;
 }
 
+/* ✅ ปรับหัวข้อ Table */
 .custom-table .ant-table-thead > tr > th {
   background-color: #f0f2f5;
   font-weight: bold;
@@ -55,23 +57,46 @@
   padding: 12px;
 }
 
+/* ✅ ปรับให้ข้อมูลใน Table ไม่ล้น */
 .custom-table .ant-table-tbody > tr > td {
   text-align: center;
   padding: 12px;
-  white-space: nowrap;
+  white-space: nowrap; /* ✅ ป้องกันข้อความล้น */
 }
 
+/* ✅ ปรับ Pagination */
 .custom-table .ant-pagination {
   text-align: center;
   margin-top: 20px;
 }
 
+/* ✅ ปรับปุ่ม Action */
 .custom-table .action-buttons {
   display: flex;
   gap: 8px;
   justify-content: center;
 }
 
+/* ✅ ปรับขนาดของ Switch */
 .custom-table .ant-switch {
   transform: scale(1.1);
+}
+
+/* ✅ Responsive สำหรับจอเล็ก (น้อยกว่า 768px) */
+@media (max-width: 768px) {
+  .custom-table-header {
+    flex-wrap: wrap; /* ✅ ให้ขึ้นบรรทัดใหม่ */
+    justify-content: center; /* ✅ จัดกึ่งกลาง */
+  }
+
+  .custom-table-header .custom-table-search {
+    width: 100%; /* ✅ เต็มความกว้าง */
+    max-width: 300px;
+  }
+
+  .custom-table-header .extra-content {
+    width: 100%;
+    justify-content: center; /* ✅ จัดกึ่งกลาง */
+    margin-top: 10px;
+  }
 }

@@ -99,14 +99,14 @@ export const fetchWorkDataByPeriod = async (period) => {
       labels,
       datasets: [
         {
-          label: "ขยะมูลฝอย (กก.)",
+          label: "ขยะมูลฝอย (ตัน)",
           data: solidWasteData,
-          backgroundColor: "rgba(75, 192, 192, 0.6)",
+          backgroundColor: "rgb(67, 53, 167)",
         },
         {
-          label: "ขยะติดเชื้อ (กก.)",
+          label: "ขยะติดเชื้อ (ตัน)",
           data: medicalWasteData,
-          backgroundColor: "rgba(255, 99, 132, 0.6)",
+          backgroundColor: "rgb(255, 127, 62)",
         },
       ],
     };

@@ -1,0 +1,34 @@
+/* ✅ ทำให้ปุ่มรีเฟรชและล้างข้อมูลอยู่ในแถวเดียวกัน */
+.bin-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ✅ ปรับขนาดปุ่มให้เหมาะสม */
+.bin-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+/* ✅ ปรับปุ่มล้างข้อมูลทั้งหมดให้เป็นสีแดง */
+.delete-button {
+  background-color: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: white !important;
+}
+
+/* ✅ ทำให้ปุ่ม responsive */
+@media (max-width: 768px) {
+  .bin-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bin-buttons button {
+    width: 100%;
+  }
+}

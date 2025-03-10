@@ -46,7 +46,7 @@ body,
 /* ✅ ปรับการแสดงผลในหน้าจอเล็ก (มือถือ) */
 @media (max-width: 768px) {
   .app-container {
-    padding-top: 100px; /* ✅ เพิ่มระยะห่างจาก Navbar */
+    padding-top: 100px;
   }
   .content {
     padding: 10px;

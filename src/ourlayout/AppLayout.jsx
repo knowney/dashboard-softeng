@@ -3,16 +3,17 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../service/firebaseDb";
 import { doc, getDoc } from "firebase/firestore";
-import { message, Modal } from "antd";
+import { message, Button, Modal } from "antd";
 import logo from "../images/logotop.png"; // ✅ นำโลโก้มาใช้
 import "./AppLayout.css";
+import { LogoutOutlined } from "@ant-design/icons"; // ✅ นำเข้าไอคอน Logout
 
 const AppLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [userRole, setUserRole] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // ✅ ใช้สำหรับ Mobile Menu
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -68,12 +69,7 @@ const AppLayout = () => {
     ...(userRole === "แอดมิน"
       ? [
           { key: "/manage/user", label: "จัดการผู้ใช้", path: "/manage/user" },
-          // { key: "/manage/bin", label: "จัดการขยะ", path: "/manage/bin" },
-          // {
-          //   key: "/manage/category",
-          //   label: "จัดการหมวดหมู่",
-          //   path: "/manage/category",
-          // },
+          { key: "/manage/bin", label: "จัดการขยะ", path: "/manage/bin" },
         ]
       : []),
   ];
@@ -108,9 +104,66 @@ const AppLayout = () => {
               >
                 ตั้งค่า
               </Link>
-              <button onClick={handleLogout}>ลงชื่อออก</button>
+              <Button
+                type="primary"
+                danger
+                icon={<LogoutOutlined />} // ✅ เพิ่มไอคอน Logout
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  fontSize: "14px",
+
+                  borderRadius: "8px",
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px", // ✅ เพิ่มระยะห่างระหว่างไอคอนและข้อความ
+                }}
+                onClick={handleLogout}
+              >
+                ลงชื่อออก
+              </Button>
             </div>
           </div>
+        </div>
+
+        {/* ✅ ปุ่มเปิด/ปิดเมนูมือถือ (ใช้ :) */}
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </button>
+
+        {/* ✅ Mobile Menu */}
+        <div className={`mobile-menu ${menuOpen ? "show" : ""}`}>
+          {menuItems.map((item) => (
+            <Link
+              key={item.key}
+              to={item.path}
+              onClick={() => setMenuOpen(false)}
+              className={location.pathname === item.path ? "active" : ""}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link to="/setting" onClick={() => setMenuOpen(false)}>
+            ตั้งค่า
+          </Link>
+
+          <Button
+            type="primary"
+            danger
+            style={{
+              width: "100%",
+              padding: "10px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              textAlign: "center",
+            }}
+            onClick={handleLogout}
+          >
+            ลงชื่อออก
+          </Button>
         </div>
       </nav>
 

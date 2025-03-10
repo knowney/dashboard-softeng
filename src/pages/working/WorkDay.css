@@ -1,51 +1,82 @@
 /* ปรับแต่งฟอร์มให้มีความกระชับและใช้งานง่าย */
-
 .card-container {
   display: flex;
   justify-content: center;
   margin-top: 1.5rem;
+  padding: 0 1rem;
 }
 
 .card {
   width: 100%;
-  max-width: 400px;
+  max-width: 600px; /* ขยายขนาด card ให้รองรับ input ได้ดีขึ้น */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: #ffffff;
 }
 
-/* ปรับแต่งช่องกรอกข้อมูลให้กะทัดรัด */
-.ant-form-item {
-  margin-bottom: 12px;
-  width: 100%;
-}
-
-.ant-input,
-.ant-picker {
-  border-radius: 6px;
-  height: 36px;
-}
-
-.ant-input-textarea {
-  border-radius: 6px;
-}
-
-/* ปรับขนาดปุ่มให้เต็มความกว้าง */
-.ant-btn-primary {
-  width: 100%;
-  height: 40px;
-  font-size: 16px;
-  border-radius: 6px;
-}
-
-/* ปรับ layout ให้ดูสมดุลและให้ textbox อยู่ใน row เดียวกัน row ละ 2 ช่อง */
+/* ปรับ layout ให้สมดุลและรองรับ responsive */
 .grid-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
 }
 
+/* ให้ input field มีขนาดที่สมดุล */
 .grid-container .ant-form-item {
-  flex: 1 1 calc(50% - 6px);
+  flex: 1 1 calc(50% - 8px);
+  min-width: 250px; /* ป้องกัน textbox เล็กเกินไป */
+}
+
+/* ปรับขนาด input ให้อ่านง่ายขึ้น */
+.ant-input,
+.ant-picker,
+.ant-input-number {
+  height: 40px; /* ขยายความสูงของ input */
+  font-size: 16px;
+}
+
+/* ปรับขนาด TextArea */
+.ant-input-textarea {
+  min-height: 80px; /* ปรับขนาด TextArea ให้อ่านง่ายขึ้น */
+}
+
+/* ปรับปุ่มให้เต็ม width และขนาดสมดุล */
+.ant-btn {
+  height: 45px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Responsive: ถ้าหน้าจอเล็ก ให้ input อยู่แบบเต็ม width */
+@media (max-width: 480px) {
+  .grid-container {
+    flex-direction: column;
+  }
+
+  .grid-container .ant-form-item {
+    flex: 1 1 100%;
+  }
+}
+/* ✅ ปรับให้ "วันที่ และ เวลา" อยู่ในบรรทัดเดียวกัน */
+.date-time-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-time {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.date-time .ant-picker {
+  flex: 1;
+}
+
+/* ✅ Responsive ปรับให้ซ้อนกันเมื่อจอเล็ก */
+@media (max-width: 768px) {
+  .date-time {
+    flex-direction: column;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Card, Input, Spin } from "antd";
-import { UserOutlined } from "@ant-design/icons"; // ✅ เพิ่มไอคอน
+import { UserOutlined } from "@ant-design/icons";
 import "./Table.css";
 
 const { Search } = Input;
@@ -11,12 +11,11 @@ const CustomTable = ({
   loading,
   pagination,
   setPagination,
-  extraContent, // ✅ รับปุ่ม "เพิ่มผู้ใช้งาน"
+  extraContent,
 }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [searchText, setSearchText] = useState("");
 
-  // ✅ อัปเดต filteredData เมื่อ data หรือ searchText เปลี่ยน
   useEffect(() => {
     if (!searchText) {
       setFilteredData(data);
@@ -34,20 +33,17 @@ const CustomTable = ({
 
   return (
     <Card className="custom-table-container">
-      {/* ✅ ส่วนหัวของ Card */}
       <div>
-        {/* ✅ หัวข้อ "การจัดการผู้ใช้งาน" (ใช้ h1 + ไอคอนขนาดเหมาะสม) */}
+        {/* ✅ ส่วนหัวของ Card */}
         <div className="flex items-center gap-3 mb-4">
-          {/* ✅ ปรับขนาดไอคอน */}
-          <h1 className="text-3xl font-bold text-gray-700">
+          <h1 className="text-3xl font-bold text-gray-700 flex items-center">
             <UserOutlined className="text-4xl leading-none text-gray-700" />{" "}
-            การจัดการผู้ใช้งาน
+            <span>การบริหารและการจัดการ</span>
           </h1>
         </div>
 
-        {/* ✅ ค้นหาอยู่ซ้าย + ปุ่มอยู่ขวา (ไม่ให้ปุ่มเลื่อนลงมา) */}
+        {/* ✅ ค้นหาอยู่ซ้าย + ปุ่มอยู่ขวา (อยู่บรรทัดเดียวกัน) */}
         <div className="custom-table-header">
-          {/* ✅ ช่องค้นหา */}
           <Search
             className="custom-table-search"
             placeholder="ค้นหา..."
@@ -56,13 +52,12 @@ const CustomTable = ({
             onChange={(e) => setSearchText(e.target.value)}
           />
 
-          {/* ✅ ปุ่มอยู่ขวาสุด */}
           <div className="extra-content">{extraContent}</div>
         </div>
       </div>
 
       {/* ✅ เว้นระยะห่างระหว่างแถบค้นหากับตาราง */}
-      <div className="mt-4">
+      <div className="mt-4 overflow-x-auto">
         {loading ? (
           <Spin tip="กำลังโหลดข้อมูล..." size="large" fullscreen />
         ) : (
@@ -70,7 +65,7 @@ const CustomTable = ({
             columns={columns}
             dataSource={filteredData.map((item) => ({
               ...item,
-              key: item.uid || item.id, // ✅ กำหนด key ให้ Table
+              key: item.uid || item.id,
             }))}
             bordered
             pagination={{
@@ -81,7 +76,7 @@ const CustomTable = ({
                 setPagination({ current: page, pageSize }),
             }}
             className="custom-table"
-            scroll={{ x: "max-content" }}
+            scroll={{ x: "max-content" }} // ✅ ทำให้ตารางเลื่อนได้เมื่อคอลัมน์เยอะ
           />
         )}
       </div>

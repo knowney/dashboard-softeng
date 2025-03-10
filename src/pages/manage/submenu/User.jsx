@@ -165,9 +165,9 @@ const User = () => {
   };
 
   const roles = [
-    { value: "ผู้ใช้งาน", label: "👤 ผู้ใช้งาน" },
-    { value: "พนักงาน ", label: "👤 พนักงาน" },
-    { value: "แอดมิน", label: "🔧 แอดมิน" },
+    { value: "ผู้ใช้งาน", label: " ผู้ใช้งาน" },
+    { value: "พนักงาน ", label: " พนักงาน" },
+    { value: "แอดมิน", label: " แอดมิน" },
   ];
   const handleDeleteUser = async (uid) => {
     setLoading(true);
@@ -274,7 +274,7 @@ const User = () => {
 
       {/* ✅ Modal เพิ่มผู้ใช้ */}
       <Modal
-        title="เพิ่มผู้ใช้"
+        title="เพิ่มผู้ใช้งาน"
         open={isAddModalVisible}
         onCancel={handleModalClose} // ✅ ปิด Modal เมื่อกดปุ่ม "ยกเลิก"
         onOk={handleAddUser} // ✅ เรียก handleAddUser เมื่อกด "เพิ่ม"
@@ -370,9 +370,9 @@ const User = () => {
             rules={[{ required: true, message: "กรุณาเลือกบทบาท" }]}
           >
             <Select placeholder="เลือกบทบาท" suffixIcon={<SettingOutlined />}>
-              <Select.Option value="ผู้ใช้งาน">👤 ผู้ใช้งาน</Select.Option>
-              <Select.Option value="พนักงาน">👤 พนักงาน</Select.Option>
-              <Select.Option value="admin">🔧 แอดมิน</Select.Option>
+              <Select.Option value="ผู้ใช้งาน"> ผู้ใช้งาน</Select.Option>
+              <Select.Option value="พนักงาน"> พนักงาน</Select.Option>
+              <Select.Option value="admin"> แอดมิน</Select.Option>
             </Select>
           </Form.Item>
         </Form>

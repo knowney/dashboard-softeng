@@ -23,9 +23,9 @@ const EditUserModal = ({ visible, onCancel, onOk, form, loading }) => {
         </Form.Item>
         <Form.Item label="บทบาท" name="role" rules={[{ required: true }]}>
           <Select placeholder="เลือกบทบาท" suffixIcon={<SettingOutlined />}>
-            <Select.Option value="ผู้ใช้งาน">👤 ผู้ใช้งาน</Select.Option>
-            <Select.Option value="พนักงาน">👤 พนักงาน</Select.Option>
-            <Select.Option value="admin">🔧 แอดมิน</Select.Option>
+            <Select.Option value="ผู้ใช้งาน"> ผู้ใช้งาน</Select.Option>
+            <Select.Option value="พนักงาน"> พนักงาน</Select.Option>
+            <Select.Option value="admin"> แอดมิน</Select.Option>
           </Select>
         </Form.Item>
       </Form>

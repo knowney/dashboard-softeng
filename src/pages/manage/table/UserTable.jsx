@@ -11,7 +11,7 @@ import {
   RetweetOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Modal } from "antd";
+import { Modal, Tag } from "antd";
 import "./UserTable.css";
 export const userColumns = (
   handleEditUser,
@@ -85,12 +85,38 @@ export const userColumns = (
     key: "role",
     filters: [
       { text: "ผู้ใช้", value: "user" },
+      { text: "พนักงาน", value: "employee" },
       { text: "แอดมิน", value: "admin" },
     ],
     onFilter: (value, record) => record.role === value,
     sorter: (a, b) =>
       (a.role?.toString() || "").localeCompare(b.role?.toString() || ""),
     responsive: ["sm"],
+
+    // ✅ ใช้ `Tag` เพื่อให้ข้อความบทบาท (role) ดูโดดเด่น
+    render: (role) => {
+      const roleMapping = {
+        ผู้ใช้งาน: { label: "ผู้ใช้งาน", color: "green" },
+        พนักงาน: { label: "พนักงาน", color: "blue" },
+        แอดมิน: { label: "แอดมิน", color: "purple" },
+      };
+
+      return (
+        <Tag
+          color={roleMapping[role]?.color || "default"}
+          style={{
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "5px 12px",
+            borderRadius: "20px",
+            textTransform: "uppercase",
+            boxShadow: "0 2px 5px rgba(0,0,0,0.2)", // ✅ เพิ่มเงาให้ดูเด่นขึ้น
+          }}
+        >
+          {roleMapping[role]?.label || "พนักงาน"}
+        </Tag>
+      );
+    },
   },
   {
     title: (
