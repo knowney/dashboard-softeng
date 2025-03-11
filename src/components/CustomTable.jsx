@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Card, Input, Spin } from "antd";
+import { Table, Card, Input, Spin, Skeleton } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./Table.css";
 
@@ -57,9 +57,11 @@ const CustomTable = ({
       </div>
 
       {/* ✅ เว้นระยะห่างระหว่างแถบค้นหากับตาราง */}
-      <div className="mt-4 overflow-x-auto">
+      <div className="mt-4 overflow-x-auto relative">
         {loading ? (
-          <Spin tip="กำลังโหลดข้อมูล..." size="large" fullscreen />
+          <div className="flex justify-center items-center min-h-[300px]">
+            <Spin tip="กำลังโหลดข้อมูล..." size="large" />
+          </div>
         ) : (
           <Table
             columns={columns}
