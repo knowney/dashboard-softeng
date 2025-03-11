@@ -10,8 +10,25 @@ export const fetchWorkDayData = async () => {
       ...doc.data(),
     }));
   } catch (error) {
-    console.error("Error fetching data: ", error);
+    console.error("❌ Error fetching data:", error);
     return [];
+  }
+};
+
+// ✅ ฟังก์ชันลบข้อมูล WorkDay ตาม `binId`
+export const deleteBin = async (binId) => {
+  if (!binId) {
+    console.error("❌ Error: binId is required.");
+    return false;
+  }
+
+  try {
+    await deleteDoc(doc(db, "WorkDay", binId));
+    console.log(`✅ Bin ${binId} deleted successfully`);
+    return true;
+  } catch (error) {
+    console.error("❌ Error deleting bin:", error);
+    return false;
   }
 };
 
@@ -24,10 +41,10 @@ export const deleteAllWorkDayData = async () => {
     );
 
     await Promise.all(deletePromises);
-    console.log("All WorkDay data deleted successfully");
+    console.log("✅ All WorkDay data deleted successfully");
     return true;
   } catch (error) {
-    console.error("Error deleting data: ", error);
+    console.error("❌ Error deleting all data:", error);
     return false;
   }
 };

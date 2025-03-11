@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Input, message } from "antd";
-import { ReloadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { ReloadOutlined } from "@ant-design/icons";
 import CustomTable from "../../../components/CustomTable";
 import { columns } from "../table/BinTable";
-import { fetchWorkDayData, deleteAllWorkDayData } from "../../../service/Bin"; // ✅ Import ฟังก์ชันลบ
-import "../table/Bin.css"; // ✅ Import ไฟล์ CSS ที่ปรับปรุง
+import { fetchWorkDayData, deleteAllWorkDayData } from "../../../service/Bin";
+import "../table/Bin.css";
+import ButtonCustom from "../../../components/ButtonCustom";
 
 const Bin = () => {
   const [data, setData] = useState([]);
@@ -36,7 +37,7 @@ const Bin = () => {
     setPassword("");
   };
 
-  // ✅ ตรวจสอบรหัสผ่านและลบข้อมูล
+  // ✅ ตรวจสอบรหัสผ่านและลบข้อมูลทั้งหมด
   const handleDelete = async () => {
     const correctPassword = "00000"; // ✅ รหัสผ่านที่กำหนด
     if (password === correctPassword) {
@@ -59,21 +60,18 @@ const Bin = () => {
     <div className="bin-container">
       {/* ✅ ปรับปุ่มให้อยู่ในแถวเดียวกัน และรองรับ Responsive */}
       <div className="bin-buttons">
+        <ButtonCustom
+          text="ล้างข้อมูลทั้งหมด"
+          type="primary"
+          onClick={showDeleteModal}
+        />
         <Button type="primary" icon={<ReloadOutlined />} onClick={loadData}>
           รีเฟรช
-        </Button>
-        <Button
-          type="primary"
-          icon={<DeleteOutlined />}
-          className="delete-button"
-          onClick={showDeleteModal}
-        >
-          ล้างข้อมูลทั้งหมด
         </Button>
       </div>
 
       <CustomTable
-        columns={columns}
+        columns={columns(loadData)} // ✅ ส่งฟังก์ชัน `loadData` ไปใช้ใน `BinTable.jsx`
         data={data}
         loading={loading}
         pagination={pagination}
@@ -83,13 +81,18 @@ const Bin = () => {
       {/* ✅ Modal ยืนยันรหัสผ่านก่อนลบข้อมูล */}
       <Modal
         title="ยืนยันการล้างข้อมูล"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleDelete}
         onCancel={handleCancel}
         okText="ยืนยัน"
         cancelText="ยกเลิก"
       >
-        <p>กรุณากรอกรหัสผ่านเพื่อยืนยันการลบข้อมูลทั้งหมด:</p>
+        <p>
+          <b style={{ color: "red" }}>
+            การดำเนินการต่อไปนี้จะล้างข้อมูลทั้งหมด !
+          </b>
+          กรุณากรอกรหัสผ่านเพื่อยืนยันการล้าง
+        </p>
         <Input.Password
           placeholder="รหัสผ่าน"
           value={password}

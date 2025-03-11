@@ -7,7 +7,6 @@ import {
   UserOutlined,
   CalendarOutlined,
   TeamOutlined,
-  NumberOutlined,
   RetweetOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
@@ -20,11 +19,7 @@ export const userColumns = (
   pagination
 ) => [
   {
-    title: (
-      <>
-        <NumberOutlined /> ลำดับ
-      </>
-    ),
+    title: <>ลำดับ</>,
     key: "index",
     width: 80, // ✅ ปรับขนาดคอลัมน์
     fixed: "left", // ✅ ทำให้ลำดับอยู่ซ้ายเสมอ
@@ -84,9 +79,9 @@ export const userColumns = (
     dataIndex: "role",
     key: "role",
     filters: [
-      { text: "ผู้ใช้", value: "user" },
-      { text: "พนักงาน", value: "employee" },
-      { text: "แอดมิน", value: "admin" },
+      { text: "ผู้ใช้งาน", value: "ผู้ใช้งาน" },
+      { text: "พนักงาน", value: "พนักงาน" },
+      { text: "แอดมิน", value: "แอดมิน" },
     ],
     onFilter: (value, record) => record.role === value,
     sorter: (a, b) =>

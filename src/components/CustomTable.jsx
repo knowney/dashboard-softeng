@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Card, Input, Spin, Skeleton } from "antd";
+import { Table, Card, Input, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./Table.css";
 
@@ -51,18 +51,17 @@ const CustomTable = ({
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-
           <div className="extra-content">{extraContent}</div>
         </div>
       </div>
 
       {/* ✅ เว้นระยะห่างระหว่างแถบค้นหากับตาราง */}
-      <div className="mt-4 overflow-x-auto relative">
-        {loading ? (
-          <div className="flex justify-center items-center min-h-[300px]">
-            <Spin tip="กำลังโหลดข้อมูล..." size="large" />
-          </div>
-        ) : (
+      <div className="mt-4 table-wrapper">
+        <Spin
+          spinning={loading}
+          tip="กำลังโหลดข้อมูล..."
+          wrapperClassName="spin-container"
+        >
           <Table
             columns={columns}
             dataSource={filteredData.map((item) => ({
@@ -78,9 +77,12 @@ const CustomTable = ({
                 setPagination({ current: page, pageSize }),
             }}
             className="custom-table"
-            scroll={{ x: "max-content" }} // ✅ ทำให้ตารางเลื่อนได้เมื่อคอลัมน์เยอะ
+            scroll={false} // ✅ ปิดการเลื่อนแนวนอน
+            rowClassName={(_, index) =>
+              index % 2 === 0 ? "table-row-even" : "table-row-odd"
+            } // ✅ สลับสีแถว
           />
-        )}
+        </Spin>
       </div>
     </Card>
   );

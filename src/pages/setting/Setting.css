@@ -1,0 +1,56 @@
+body,
+html {
+  overflow: hidden; /* ✅ ปิดการ Scroll */
+  height: 40vh; /* ✅ บังคับให้แสดงเต็มหน้าจอ */
+}
+
+.setting-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ✅ ให้ Card อยู่ตรงกลางจอเสมอ */
+  background-color: transparent !important;
+}
+
+.setting-card {
+  width: 100%;
+  max-width: 800px; /* ✅ เพิ่มความกว้างของ Card */
+  padding: 2.5rem;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15); /* ✅ เพิ่มเงาให้ Card */
+  margin-top: -360px; /* ✅ ย้าย Card ขึ้นไปข้างบน */
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-container .ant-avatar {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.change-avatar {
+  color: rgb(104, 102, 102);
+  cursor: pointer;
+  margin-top: 8px;
+  text-decoration: underline;
+}
+
+.change-avatar:hover {
+  color: #0fcd57;
+}
+
+.label {
+  text-align: left;
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.save-btn {
+  margin-top: 20px;
+}
