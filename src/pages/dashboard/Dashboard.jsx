@@ -39,6 +39,7 @@ const Dashboard = () => {
     const fetchProcessData = async () => {
       setLoading(true);
       try {
+        // 🔥 ดึงข้อมูล WorkDay ล่าสุด (6 รายการ)
         const workDayRef = collection(db, "WorkDay");
         const workDayQuery = query(
           workDayRef,
@@ -55,20 +56,23 @@ const Dashboard = () => {
 
         console.log("🔥 WorkDay Data:", workDayData);
 
+        // 🔥 ดึงข้อมูล Users
         const usersRef = collection(db, "users");
         const usersSnapshot = await getDocs(usersRef);
         let userData = {};
         usersSnapshot.forEach((doc) => {
-          userData[doc.id] = doc.data().avatar;
+          userData[doc.id] = doc.data().avatar; // ✅ Map `uid` -> `avatar`
         });
 
-        console.log("🔥 Users Data:", userData);
+        console.log("🔥 Users Data:", userData); // ✅ ตรวจสอบว่า `avatar` มาจริงไหม
 
+        // 🔥 รวมข้อมูล WorkDay + Users (จับคู่ `workBy` กับ `users`)
         const finalData = workDayData.map((item) => ({
           ...item,
+          key: item.id,
           avatar:
             userData[item.workBy] ||
-            "https://api.dicebear.com/7.x/open-peeps/svg?seed=default",
+            "https://api.dicebear.com/7.x/open-peeps/svg?seed=default", // ✅ ถ้าไม่มี avatar ใช้ Default
         }));
 
         console.log("🔥 Final Process Data:", finalData);

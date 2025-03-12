@@ -9,6 +9,7 @@
   border-radius: 8px;
   min-height: 30px;
   background: white; /* ✅ ป้องกันเงาซ้อนทับ */
+  margin-bottom: 30px;
 }
 
 /* ✅ ทำให้ Doughnut Chart ดูสมดุล และใช้เงาเดียวกับ Card */
@@ -20,6 +21,7 @@
   align-items: center;
   border-radius: 8px;
   padding: 15px;
+  font-size: 14px;
 }
 
 /* ✅ Center Loading Spinner */
@@ -94,4 +96,20 @@
 .doughnut-chart {
   max-width: 300px !important;
   max-height: 300px !important;
+}
+/* ✅ ทำให้ Table Responsive */
+.table-responsive {
+  overflow-x: auto; /* ✅ เพิ่ม Scroll แนวนอนเมื่อจอเล็ก */
+  max-width: 100%;
+}
+
+.dashboard-card.responsive-card {
+  overflow-x: auto; /* ✅ ให้ Card รองรับ Scroll */
+}
+
+/* ✅ ปรับขนาดของ Table เมื่ออยู่บนจอเล็ก */
+@media screen and (max-width: 768px) {
+  .table-responsive {
+    width: 100%;
+  }
 }
