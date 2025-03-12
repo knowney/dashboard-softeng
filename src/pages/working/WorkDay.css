@@ -80,3 +80,31 @@
     flex-direction: column;
   }
 }
+/* ปรับแต่ง Select Input ของ Antd ให้เข้ากันกับ Input อื่นๆ */
+.ant-select-selector {
+  height: 40px !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  display: flex;
+  align-items: center;
+}
+
+.ant-select-selection-item {
+  line-height: 40px !important;
+}
+
+/* เมื่อ select ถูกโฟกัสให้เหมือนกับ input */
+.ant-select-focused .ant-select-selector {
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+.ant-select {
+  width: 100% !important;
+}
+/* โฟกัสให้เหมือน input */
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:hover {
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}

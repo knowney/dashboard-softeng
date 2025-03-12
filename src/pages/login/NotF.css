@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --light: 5;
+}
+
+body {
+  background: hsl(0, 0%, calc(var(--light) * 1%));
+  font-family: "Roboto Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light: 5;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --light: 95;
+  }
+}
+
+h1 {
+  margin: 0;
+}
+
+a {
+  color: hsl(0, 0%, calc((100 - var(--light)) * 1%));
+  font-weight: bold;
+}
+
+.glitchy-text {
+  color: hsl(0, 0%, calc((100 - var(--light, 95)) * 1%));
+  display: inline-block;
+  position: relative;
+}
+
+.glitchy-text__char:after {
+  color: hsl(0, 0%, calc((100 - var(--light, 95)) * 1%));
+  transition: color 0.2s ease 0s;
+  position: absolute;
+  content: attr(data-char);
+  left: 0;
+  top: 0;
+}
+
+.bear__tear-stream {
+  fill: hsla(200, 100%, 75%, var(--bear-tears, 0));
+}
+
+.bear__brows {
+  stroke: hsla(0, 0%, 0%, var(--bear-brows, 0));
+}
+
+.bear__eye {
+  fill: hsla(0, 0%, 0%, var(--bear-eyes, 0));
+}
+
+.bear__eye--teary {
+  fill: hsla(200, 100%, 75%, calc(var(--bear-tears, 0) - 0.5));
+}
+
+.bear-logo--tears .bear__eye {
+  transform: scaleY(0.25);
+  transform-origin: 97px 894px;
+  fill: hsla(200, 100%, 75%, var(--bear-eyes));
+}
+
+.bear-logo--tears .bear__eye--right {
+  transform-origin: 201px 894px;
+}
