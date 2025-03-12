@@ -191,7 +191,7 @@ const WorkDay = () => {
       {/* ✅ Modal แสดงผลลัพธ์สำเร็จ */}
       <Modal
         title="บันทึกข้อมูลสำเร็จ"
-        visible={isModalVisible}
+        open={isModalVisible} // ✅ ใช้ open แทน visible
         onCancel={() => setIsModalVisible(false)}
         footer={[
           <div key="footer" style={{ textAlign: "center", width: "100%" }}>

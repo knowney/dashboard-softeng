@@ -43,8 +43,9 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [totalWasteData, setTotalWasteData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("month");
-  const dashboardRef = useRef(null); // ✅ ใช้ `useRef` เพื่ออ้างอิงถึง Dashboard
+  const dashboardRef = useRef(null);
 
   useEffect(() => {
     const loadChartData = async () => {
@@ -64,7 +65,6 @@ const Dashboard = () => {
     loadChartData();
   }, [selectedPeriod]);
 
-  // ✅ เลือก Chart ตามช่วงเวลา
   const renderChart = () => {
     if (selectedPeriod === "week" || selectedPeriod === "year") {
       return <Line data={chartData} options={{ responsive: true }} />;
@@ -72,9 +72,9 @@ const Dashboard = () => {
     return <Bar data={chartData} options={{ responsive: true }} />;
   };
 
-  // ✅ ฟังก์ชัน Export PDF
-  const exportPDF = () => {
-    const input = dashboardRef.current; // 📌 อ้างอิง Dashboard
+  const exportPDF = async () => {
+    setExporting(true);
+    const input = dashboardRef.current;
 
     html2canvas(input, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -84,6 +84,7 @@ const Dashboard = () => {
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("dashboard_report.pdf");
+      setExporting(false);
     });
   };
 
@@ -95,6 +96,7 @@ const Dashboard = () => {
         icon={<FilePdfOutlined />}
         className="export-button"
         onClick={exportPDF}
+        loading={exporting} // ✅ เพิ่ม Loading
       >
         Export PDF
       </Button>
@@ -111,7 +113,7 @@ const Dashboard = () => {
             className="dashboard-card summary-card"
           >
             {loading ? (
-              <Spin tip="กำลังโหลดข้อมูล..." />
+              <Spin fullscreen tip="กำลังโหลดข้อมูล..." /> // ✅ ใช้ fullscreen
             ) : (
               <p className="summary-number">
                 <strong>{totalWasteData?.solidWaste || 0} (ตัน)</strong>
@@ -130,7 +132,10 @@ const Dashboard = () => {
             className="dashboard-card summary-card"
           >
             {loading ? (
-              <Spin tip="กำลังโหลดข้อมูล..." />
+              <Spin
+                wrapperClassName="spin-container"
+                tip="กำลังโหลดข้อมูล..."
+              />
             ) : (
               <p className="summary-number">
                 <strong>{totalWasteData?.medicalWaste || 0} (ตัน)</strong>
@@ -168,9 +173,9 @@ const Dashboard = () => {
         <Col xs={24} lg={12}>
           <Card title="📊 สถิติขยะ" className="dashboard-card chart-card">
             <Select
-              defaultValue="month"
+              value={selectedPeriod}
               style={{ width: 200, marginBottom: 16 }}
-              onChange={(value) => setSelectedPeriod(value)}
+              onChange={setSelectedPeriod}
               options={[
                 { value: "day", label: " รายวัน" },
                 { value: "week", label: " รายสัปดาห์" },
@@ -178,6 +183,7 @@ const Dashboard = () => {
                 { value: "year", label: " รายปี" },
               ]}
             />
+
             {loading ? (
               <Spin tip="กำลังโหลดข้อมูล..." className="loading-spinner" />
             ) : chartData.datasets.length > 0 ? (
@@ -209,8 +215,8 @@ const Dashboard = () => {
                           totalWasteData?.medicalWaste,
                         ],
                         backgroundColor: [
-                          "rgb(119, 178, 84)",
-                          "rgb(255, 157, 35)",
+                          "rgb(224, 56, 123)",
+                          "rgb(27, 170, 160)",
                         ],
                         borderWidth: 2,
                       },
@@ -218,10 +224,7 @@ const Dashboard = () => {
                   }}
                   options={{
                     responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { position: "bottom" },
-                    },
+                    animation: { duration: 1000, easing: "easeInOutQuart" },
                   }}
                 />
               </div>

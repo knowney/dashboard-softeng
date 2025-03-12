@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../service/firebaseDb";
 import { doc, getDoc } from "firebase/firestore";
-import { message, Button, Modal, Dropdown, Avatar } from "antd";
+import { message, Button, Modal, Dropdown, Avatar, Breadcrumb } from "antd";
 import logo from "../images/logotop.png";
 import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import "./AppLayout.css";
@@ -55,7 +55,6 @@ const AppLayout = () => {
     };
   }, [navigate]);
 
-  // ✅ ปิดเมนู ☰ เมื่อเปลี่ยนหน้า
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
@@ -104,12 +103,11 @@ const AppLayout = () => {
       : []),
   ];
 
-  // ✅ ใช้ `menu` แทน `overlay` ใน Dropdown
   const dropdownMenu = {
     items: [
       {
         key: "setting",
-        label: <Link to="/setting">ตั้งค่า</Link>,
+        label: <Link to="/setting">ตั้งค่าโปรไฟล์</Link>,
         icon: <SettingOutlined />,
       },
       {
@@ -125,6 +123,19 @@ const AppLayout = () => {
     ],
   };
 
+  // ✅ แปลง URL เป็น Breadcrumb
+  const pathSnippets = location.pathname.split("/").filter((i) => i);
+  const breadcrumbItems = [
+    { key: "home", title: <Link to="/">🏠 หน้าแรก</Link> },
+    ...pathSnippets.map((value, index) => {
+      const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
+      return {
+        key: url,
+        title: <Link to={url}>{decodeURIComponent(value)}</Link>,
+      };
+    }),
+  ];
+
   return (
     <div className="app-container">
       <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
@@ -132,7 +143,6 @@ const AppLayout = () => {
           <img src={logo} alt="Logo" className="navbar-logo" />
         </Link>
 
-        {/* ✅ เมนูหลัก (Desktop) */}
         <div className="menu">
           {menuItems.map((item) => (
             <Link
@@ -150,12 +160,12 @@ const AppLayout = () => {
                 src={userAvatar}
                 size={50}
                 className="cursor-pointer dropdown-trigger"
+                style={{ border: "1px solid #0b8d2a" }}
               />
             </Dropdown>
           )}
         </div>
 
-        {/* ✅ ปุ่ม ☰ แสดงเฉพาะบนมือถือ */}
         {isMobile && (
           <button
             className="menu-toggle"
@@ -165,9 +175,7 @@ const AppLayout = () => {
           </button>
         )}
 
-        {/* ✅ Mobile Menu */}
         <div className={`mobile-menu ${menuOpen ? "show" : ""}`}>
-          {/* ✅ แสดง Avatar บนเมนู ☰ */}
           <div className="mobile-avatar-container">
             <Avatar src={userAvatar} size={80} className="cursor-pointer" />
           </div>
@@ -203,6 +211,11 @@ const AppLayout = () => {
           </Button>
         </div>
       </nav>
+
+      {/* ✅ Breadcrumb ใต้ Navbar */}
+      <div className="breadcrumb-container">
+        <Breadcrumb separator=">" items={breadcrumbItems} />
+      </div>
 
       <div className="content">
         <Outlet />
