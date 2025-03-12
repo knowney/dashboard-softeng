@@ -81,12 +81,25 @@ const AppLayout = () => {
 
   const menuItems = [
     { key: "/", label: "หน้าแรก", path: "/" },
-    { key: "/dashboard", label: "ผลสรุป", path: "/dashboard" },
-    { key: "/work-day", label: "ส่งข้อมูลการกำจัดขยะ", path: "/work-day" },
+    { key: "/dashboard", label: "ภาพรวมการทำงาน", path: "/dashboard" },
+    ...(userRole === "พนักงาน"
+      ? [
+          {
+            key: "/work-day",
+            label: "ส่งข้อมูลการกำจัดขยะ",
+            path: "/work-day",
+          },
+        ]
+      : []),
     ...(userRole === "แอดมิน"
       ? [
-          { key: "/manage/user", label: "จัดการผู้ใช้", path: "/manage/user" },
-          { key: "/manage/bin", label: "จัดการขยะ", path: "/manage/bin" },
+          { key: "/manage/user", label: "ผู้ใช้งาน", path: "/manage/user" },
+          {
+            key: "/work-day",
+            label: "ส่งข้อมูลการกำจัดขยะ",
+            path: "/work-day",
+          },
+          { key: "/manage/bin", label: "การกำจัดขยะ", path: "/manage/bin" },
         ]
       : []),
   ];
