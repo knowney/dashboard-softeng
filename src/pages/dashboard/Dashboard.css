@@ -106,6 +106,9 @@
 .dashboard-card.responsive-card {
   overflow-x: auto; /* ✅ ให้ Card รองรับ Scroll */
 }
+.export-button {
+  margin-bottom: 15px;
+}
 
 /* ✅ ปรับขนาดของ Table เมื่ออยู่บนจอเล็ก */
 @media screen and (max-width: 768px) {

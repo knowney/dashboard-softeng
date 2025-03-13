@@ -2,16 +2,16 @@ import React from "react";
 import { Button } from "antd";
 import { FilePdfOutlined } from "@ant-design/icons";
 
-const ExportButton = ({ exportPDF, exporting }) => {
+const ExportButton = ({ exporting, onExport }) => {
   return (
     <Button
       type="primary"
       icon={<FilePdfOutlined />}
       className="export-button"
-      onClick={exportPDF}
+      onClick={onExport} // ✅ ใช้ฟังก์ชัน export ที่รับมา
       loading={exporting}
     >
-      Export PDF
+      ส่งออกข้อมูลผลสรุป
     </Button>
   );
 };

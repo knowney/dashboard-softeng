@@ -4,9 +4,10 @@ import { ReloadOutlined } from "@ant-design/icons";
 import CustomTable from "../../../components/CustomTable";
 import { columns } from "../table/BinTable";
 import { fetchWorkDayData, deleteAllWorkDayData } from "../../../service/Bin";
+import BinPDF from "./BinPDF"; // ✅ Import ฟังก์ชันสร้าง PDF
 import "../table/Bin.css";
 import ButtonCustom from "../../../components/ButtonCustom";
-
+import html2canvas from "html2canvas";
 const Bin = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,30 @@ const Bin = () => {
   useEffect(() => {
     loadData();
   }, []);
+
+  // ✅ ฟังก์ชันส่งออก PDF
+  const [exporting, setExporting] = useState(false); // ✅ สถานะโหลด PDF
+
+  const handleExportPDF = async () => {
+    if (!data || data.length === 0) {
+      message.warning("⚠ ไม่มีข้อมูลให้ Export PDF!");
+      return;
+    }
+
+    setExporting(true);
+
+    // ✅ แปลงกราฟเป็นภาพ
+    const chartCanvas = document.querySelector(".chart-container canvas"); // ดึงกราฟแรกที่เจอ
+    let chartImage = null;
+    if (chartCanvas) {
+      const canvasImage = await html2canvas(chartCanvas);
+      chartImage = canvasImage.toDataURL("image/png");
+    }
+
+    await BinPDF(data, chartImage); // ✅ ส่งข้อมูลและภาพกราฟไป PDF
+
+    setExporting(false);
+  };
 
   // ✅ แสดง Modal ให้กรอกรหัสผ่านก่อนลบ
   const showDeleteModal = () => {
@@ -67,6 +92,10 @@ const Bin = () => {
         />
         <Button type="primary" icon={<ReloadOutlined />} onClick={loadData}>
           รีเฟรช
+        </Button>
+        {/* ✅ ปุ่มส่งออก PDF */}
+        <Button type="primary" onClick={handleExportPDF} loading={exporting}>
+          {exporting ? "กำลังสร้าง PDF..." : "ส่งออก PDF"}
         </Button>
       </div>
 

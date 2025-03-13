@@ -1253,6 +1253,11 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.14.2"
 
+abab@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
+  integrity sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz"
@@ -2120,7 +2125,7 @@ for-each@^0.3.3:
 
 framer-motion@^12.5.0:
   version "12.5.0"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-12.5.0.tgz#3201f92d7a00f7ab636c39fdb619b07247f05a8b"
+  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-12.5.0.tgz"
   integrity sha512-buPlioFbH9/W7rDzYh1C09AuZHAk2D1xTA1BlounJ2Rb9aRg84OXexP0GLd+R83v0khURdMX7b5MKnGTaSg5iA==
   dependencies:
     motion-dom "^12.5.0"
@@ -2563,6 +2568,11 @@ json5@^2.2.3:
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
+jspdf-autotable@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npmjs.org/jspdf-autotable/-/jspdf-autotable-5.0.2.tgz"
+  integrity sha512-YNKeB7qmx3pxOLcNeoqAv3qTS7KuvVwkFe5AduCawpop3NOkBUtqDToxNc225MlNecxT4kP2Zy3z/y/yvGdXUQ==
+
 jspdf@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/jspdf/-/jspdf-3.0.0.tgz"
@@ -2658,14 +2668,14 @@ minimatch@^3.1.2:
 
 motion-dom@^12.5.0:
   version "12.5.0"
-  resolved "https://registry.yarnpkg.com/motion-dom/-/motion-dom-12.5.0.tgz#38beabafa11c068f09c2b096674b2d46025a0a24"
+  resolved "https://registry.npmjs.org/motion-dom/-/motion-dom-12.5.0.tgz"
   integrity sha512-uH2PETDh7m+Hjd1UQQ56yHqwn83SAwNjimNPE/kC+Kds0t4Yh7+29rfo5wezVFpPOv57U4IuWved5d1x0kNhbQ==
   dependencies:
     motion-utils "^12.5.0"
 
 motion-utils@^12.5.0:
   version "12.5.0"
-  resolved "https://registry.yarnpkg.com/motion-utils/-/motion-utils-12.5.0.tgz#0e42a6b8030327166ca0d0ea0d5b86d64c21e51d"
+  resolved "https://registry.npmjs.org/motion-utils/-/motion-utils-12.5.0.tgz"
   integrity sha512-+hFFzvimn0sBMP9iPxBa9OtRX35ZQ3py0UHnb8U29VD+d8lQ8zH3dTygJWqK7av2v6yhg7scj9iZuvTS0f4+SA==
 
 ms@^2.1.3:

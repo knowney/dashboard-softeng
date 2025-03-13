@@ -67,19 +67,6 @@ const Benner = () => {
               ต้องเริ่มที่การคัดแยกขยะมูลฝอยก่อนทิ้ง เพื่อไม่ให้เกิดการปนเปื้อน
               ทำให้ได้วัสดุเหลือใช้ที่มีคุณภาพสูง
             </Subtitle>
-            <Button
-              type="primary"
-              size="large"
-              style={{
-                background: "#ffeb3b",
-                color: "#000",
-                border: "none",
-                fontWeight: "bold",
-                marginRight: "10px",
-              }}
-            >
-              ดูรายละเอียด
-            </Button>
           </ContentWrapper>
         </Col>
 
@@ -95,7 +82,6 @@ const Benner = () => {
 
         <ImageWrapper>
           <img src={bannerImage} alt="Recycling" />
-         
         </ImageWrapper>
       </Row>
     </BannerWrapper>

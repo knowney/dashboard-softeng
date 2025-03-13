@@ -58,7 +58,7 @@ const StepsSection = () => (
             <p style={{ color: "#333", fontSize: "14px", minHeight: "60px" }}>
               {step.description}
             </p>
-            <Button
+            {/* <Button
               type="primary"
               size="large"
               style={{
@@ -69,7 +69,7 @@ const StepsSection = () => (
               }}
             >
               {step.buttonText}
-            </Button>
+            </Button> */}
           </Card>
         </Col>
       ))}

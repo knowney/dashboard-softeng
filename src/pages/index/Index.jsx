@@ -6,7 +6,7 @@ import sl1 from "../../images/sl1.jpg";
 import sl2 from "../../images/sl2.jpg";
 import sl3 from "../../images/sl3.jpg";
 import "./index.css";
-
+import logog from "../../images/logotop.png";
 const { Content } = Layout;
 
 const Index = () => {
@@ -15,7 +15,8 @@ const Index = () => {
       <Content className="content" style={{ background: "white" }}>
         {/* ✅ Card หัวข้อด้านบน */}
         <Card className="header-card">
-          <h1>องค์การบริหารส่วนจังหวัดนนทบุรี </h1>
+          <img src={logog} alt="Logo" className="index-logo" />{" "}
+          <h1> องค์การบริหารส่วนจังหวัดนนทบุรี </h1>
           <h2>โครงการพัฒนา Dashboard เพื่อสนับสนุนการบริหารจัดการขยะ</h2>
         </Card>
 

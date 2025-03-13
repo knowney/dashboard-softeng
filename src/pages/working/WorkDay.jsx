@@ -93,7 +93,10 @@ const WorkDay = () => {
 
   return (
     <div className="flex justify-center mt-6">
-      <Card title="บันทึกข้อมูลขยะ" className="w-full max-w-md shadow-lg">
+      <Card
+        title="บันทึกการกำจัดขยะมูลฝอยและขยะติดเชื้อ"
+        className="w-full max-w-md shadow-lg"
+      >
         <Form
           form={form}
           layout="vertical"

@@ -9,10 +9,8 @@ import ExportButton from "./ExportButton";
 import SummaryCards from "./SummaryCards";
 import ChartSection from "./ChartSection";
 import LatestRecordsTable from "./LatestRecordsTable";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import exportPDF from "./exportPDF"; // ✅ เพิ่มฟังก์ชัน Export PDF
 import "./Dashboard.css";
-
 const Dashboard = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [totalWasteData, setTotalWasteData] = useState(null);
@@ -29,7 +27,7 @@ const Dashboard = () => {
         fetchTotalWasteData(),
       ]);
       setChartData(data);
-      setTotalWasteData(wasteData);
+      setTotalWasteData(wasteData); // ✅ กำหนดค่าข้อมูลขยะทั้งหมด
       setLoading(false);
     };
     loadChartData();
@@ -64,15 +62,15 @@ const Dashboard = () => {
           userData[doc.id] = doc.data().avatar; // ✅ Map `uid` -> `avatar`
         });
 
-        console.log("🔥 Users Data:", userData); // ✅ ตรวจสอบว่า `avatar` มาจริงไหม
+        console.log("🔥 Users Data:", userData);
 
-        // 🔥 รวมข้อมูล WorkDay + Users (จับคู่ `workBy` กับ `users`)
+        // 🔥 รวมข้อมูล WorkDay + Users
         const finalData = workDayData.map((item) => ({
           ...item,
           key: item.id,
           avatar:
             userData[item.workBy] ||
-            "https://api.dicebear.com/7.x/open-peeps/svg?seed=default", // ✅ ถ้าไม่มี avatar ใช้ Default
+            "https://api.dicebear.com/7.x/open-peeps/svg?seed=default",
         }));
 
         console.log("🔥 Final Process Data:", finalData);
@@ -86,19 +84,21 @@ const Dashboard = () => {
     fetchProcessData();
   }, []);
 
-  const exportPDF = async () => {
+  // ✅ ฟังก์ชันกด Export PDF
+  const handleExport = async () => {
+    if (!processData || processData.length === 0) {
+      alert("⚠ ไม่มีข้อมูลให้ Export!");
+      return;
+    }
+
     setExporting(true);
-    html2canvas(dashboardRef.current, { scale: 2 }).then((canvas) => {
-      const pdf = new jsPDF();
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0);
-      pdf.save("dashboard_report.pdf");
-      setExporting(false);
-    });
+    await exportPDF(processData, totalWasteData); // ✅ ส่ง totalWasteData ไปด้วย
+    setExporting(false);
   };
 
   return (
     <div className="dashboard-container" ref={dashboardRef}>
-      <ExportButton exportPDF={exportPDF} exporting={exporting} />
+      <ExportButton exporting={exporting} onExport={handleExport} />
       <SummaryCards totalWasteData={totalWasteData} loading={loading} />
       <ChartSection
         selectedPeriod={selectedPeriod}

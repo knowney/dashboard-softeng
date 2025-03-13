@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Card, Col, Row, Select, Spin } from "antd";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
 import {
@@ -14,7 +14,6 @@ import {
   Legend,
 } from "chart.js";
 
-// ✅ ลงทะเบียน Chart.js เพียงครั้งเดียว
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -33,17 +32,29 @@ const ChartSection = ({
   chartData,
   totalWasteData,
   loading,
+  chartRefs,
 }) => {
+  const chartRef = useRef(null); // ✅ ใช้ `useRef` เพื่อดึง `<canvas>` ของกราฟปัจจุบัน
+
+  useEffect(() => {
+    if (chartRefs && selectedPeriod) {
+      chartRefs[selectedPeriod] = chartRef; // ✅ เก็บ `ref` ของกราฟตามช่วงเวลา
+    }
+  }, [chartRefs, selectedPeriod]);
+
   const renderChart = () => {
     if (selectedPeriod === "week" || selectedPeriod === "year") {
-      return <Line data={chartData} options={{ responsive: true }} />;
+      return (
+        <Line ref={chartRef} data={chartData} options={{ responsive: true }} />
+      );
     }
-    return <Bar data={chartData} options={{ responsive: true }} />;
+    return (
+      <Bar ref={chartRef} data={chartData} options={{ responsive: true }} />
+    );
   };
 
   return (
     <Row gutter={[16, 16]}>
-      {/* 📌 Bar/Line Chart */}
       <Col xs={24} lg={12}>
         <Card title="📊 สถิติขยะ" className="dashboard-card chart-card">
           <Select
@@ -65,7 +76,6 @@ const ChartSection = ({
         </Card>
       </Col>
 
-      {/* 📌 Doughnut Chart */}
       <Col xs={24} lg={12}>
         <Card
           title="📊 เปรียบเทียบสัดส่วนขยะทั้งหมด"
@@ -76,6 +86,7 @@ const ChartSection = ({
           ) : (
             <div className="doughnut-container">
               <Doughnut
+                ref={chartRef} // ✅ เชื่อม `ref` กับ Doughnut chart
                 data={{
                   labels: ["ขยะมูลฝอย", "ขยะติดเชื้อ"],
                   datasets: [
